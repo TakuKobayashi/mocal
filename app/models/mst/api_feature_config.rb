@@ -17,6 +17,26 @@
 #
 
 class Mst::ApiFeatureConfig < ActiveRecord::Base
-  belongs_to :mst_api_config
-  has_many   :api_use_logs
+  belongs_to :api_config
+  has_many   :api_use_logs, class_name: "ApiUseLog", foreign_key: "mst_api_feature_config_id"
+
+  enum request_format: [
+    :json,
+    :xml
+  ]
+
+  def parse_to_hash(result)
+    if self.request_format.to_sym == :json
+      hash = JSON.parse(result)
+    elsif self.request_format.to_sym == :xml
+      hash = Hash.from_xml(result)
+    end
+    return hash
+  end
+
+  def request_api(method = :post, params = {})
+    http_client = HTTPClient.new
+    response = http_client.send(method, self.request_url, params)
+    return self.parse_to_hash(response.body)
+  end
 end

@@ -15,5 +15,5 @@
 #
 
 class Mst::ApiConfig < ActiveRecord::Base
-  has_many :mst_api_feature_configs
+  has_many :api_feature_configs, class_name: "Mst::ApiFeatureConfig", foreign_key: "mst_api_config_id"
 end

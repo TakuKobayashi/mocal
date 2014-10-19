@@ -73,6 +73,8 @@ gem 'underscore-rails'
 
 gem 'whenever', :require => false
 
+gem 'httpclient'
+
 group :test do
   gem 'spork'
   gem 'guard-spork'

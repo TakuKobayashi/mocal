@@ -20,4 +20,9 @@ class Event < ActiveRecord::Base
   belongs_to :user
   has_many   :sentences
   has_many   :sent_logs
+
+  enum status: [
+    :active,
+    :complete
+  ]
 end

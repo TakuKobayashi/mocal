@@ -17,4 +17,16 @@
 #
 
 class SpeechRecognize < Event
+  def record!(attributes, language_code)
+    attribute = attributes.max_by{|attribute| attribute[:confidence].to_i}
+    sentence = self.sentences.new(origin_sentence: attribute[:candidate], language_code: language_code)
+    sentence.status = :initialize
+    sentence.save!
+    import_list = []
+    attributes.each do |candidate|
+      import_list << sentence.sentence_candidates.new(candidate)
+    end
+    SentenceCandidate.import(import_list)
+    return sentence
+  end
 end
