@@ -3,7 +3,8 @@
 # Table name: sentences
 #
 #  id               :integer          not null, primary key
-#  event_id         :integer          not null
+#  source_type      :string(255)      not null
+#  source_id        :integer          not null
 #  origin_sentence  :text
 #  fixture_sentence :text
 #  status           :integer          not null
@@ -13,12 +14,12 @@
 #
 # Indexes
 #
-#  index_sentences_on_event_id  (event_id)
-#  index_sentences_on_status    (status)
+#  index_sentences_on_source_type_and_source_id  (source_type,source_id)
+#  index_sentences_on_status                     (status)
 #
 
 class Sentence < ActiveRecord::Base
-  belongs_to :event
+  belongs_to :source, :polymorphic => true
   has_many :sentence_candidates
   has_many :dependencies
   has_many :morphological_analysis

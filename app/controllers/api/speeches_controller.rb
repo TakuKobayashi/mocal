@@ -12,7 +12,7 @@ class Api::SpeechesController < Api::BaseController
   end
 
   def stop
-  	@event.complete!
+    @event.complete!
   end
 
   private

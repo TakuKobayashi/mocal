@@ -4,11 +4,12 @@
 #
 #  id            :integer          not null, primary key
 #  sentence_id   :integer          not null
-#  dependency_id :integer          not null
+#  dependency_id :integer
 #  surface       :string(255)      not null
 #  reading       :string(255)
 #  pos           :string(255)      not null
 #  baseform      :string(255)
+#  feature       :string(255)
 #  created_at    :datetime
 #  updated_at    :datetime
 #

@@ -1,10 +1,9 @@
 # == Schema Information
 #
-# Table name: events
+# Table name: speech_recognizes
 #
 #  id         :integer          not null, primary key
 #  user_id    :integer          not null
-#  type       :string(255)      not null
 #  status     :integer          not null
 #  token      :string(255)      not null
 #  created_at :datetime
@@ -12,11 +11,20 @@
 #
 # Indexes
 #
-#  index_events_on_token                        (token) UNIQUE
-#  index_events_on_user_id_and_type_and_status  (user_id,type,status)
+#  index_speech_recognizes_on_token               (token) UNIQUE
+#  index_speech_recognizes_on_user_id_and_status  (user_id,status)
 #
 
-class SpeechRecognize < Event
+class SpeechRecognize < ActiveRecord::Base
+  belongs_to :user
+  has_many   :sentences, as: :source
+  has_many   :sent_logs
+
+  enum status: [
+    :active,
+    :complete
+  ]
+
   def record!(attributes, language_code)
     attribute = attributes.max_by{|attribute| attribute[:confidence].to_i}
     sentence = self.sentences.new(origin_sentence: attribute[:candidate], language_code: language_code)

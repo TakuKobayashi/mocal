@@ -4,6 +4,7 @@
 #
 #  id                     :integer          not null, primary key
 #  mst_api_config_id      :integer          not null
+#  api_tag                :string(255)      not null
 #  request_url            :string(255)      not null
 #  request_format         :integer          not null
 #  limit_count            :integer
@@ -13,7 +14,7 @@
 #
 # Indexes
 #
-#  mst_api_feature_configs_request_index  (mst_api_config_id,request_url) UNIQUE
+#  mst_api_feature_configs_request_index  (mst_api_config_id,api_tag,request_url) UNIQUE
 #
 
 require 'rails_helper'
