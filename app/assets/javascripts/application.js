@@ -15,4 +15,5 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require underscore
+//= require d3
 //= require_tree .
