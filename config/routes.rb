@@ -65,7 +65,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :proceeding
+  resources :proceedings
+
+  resources :comments
 
   resources :sns_connections
 

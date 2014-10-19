@@ -1,13 +1,13 @@
 # coding: utf-8
 class Api::SpeechesController < Api::BaseController
-  before_filter :load_event, only: [:speak, :stop]
+  before_filter :load_speech_recognize, only: [:speak, :stop]
 
   def start
-    @event = @user.events.create!(type: "SpeechRecognize", status: :active, token: SecureRandom.hex)
+    @speech_recognize = @user.speech_recognizes.create!(status: :active, token: SecureRandom.hex)
   end
 
   def speak
-    @sentence = @event.record!(JSON.parse(params[:recognized]) , params[:language_code])
+    @sentence = @speech_recognize.record!(JSON.parse(params[:recognized]) , params[:language_code])
     @sentence.analyze!
   end
 
@@ -16,7 +16,7 @@ class Api::SpeechesController < Api::BaseController
   end
 
   private
-  def load_event
-  	@event = @user.events.where(token: params[:token]).first
+  def load_speech_recognize
+    @speech_recognize = @user.speech_recognizes.where(token: params[:token]).first
   end
 end

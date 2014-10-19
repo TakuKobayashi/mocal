@@ -3,7 +3,7 @@ class ProceedingsController < BaseController
   before_filter :load_user
 
   def index
-    @events = @user.events.page(params[:page]).per(10)
+    @sentences = @user.sentences.includes(:source).page(params[:page]).per(10)
   end
 
   def show
@@ -18,7 +18,7 @@ class ProceedingsController < BaseController
 
   private
   def load_user
-  	@user = User.where(auth_token: session[:auth_token]).first
-  	redirect_to root_url if @user.blank?
+    @user = User.where(auth_token: session[:auth_token]).first
+    redirect_to root_url if @user.blank?
   end
 end

@@ -19,6 +19,7 @@
 #
 
 class Sentence < ActiveRecord::Base
+  belongs_to :user
   belongs_to :source, :polymorphic => true
   has_many :sentence_candidates
   has_many :dependencies

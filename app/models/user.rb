@@ -17,5 +17,7 @@ class User < ActiveRecord::Base
   has_one  :device
   has_one  :user_attribute
   has_many :sns_configs
-  has_many :events
+  has_many :speech_recognizes
+  has_many :commets
+  has_many :sentences
 end

@@ -27,7 +27,7 @@ class SpeechRecognize < ActiveRecord::Base
 
   def record!(attributes, language_code)
     attribute = attributes.max_by{|attribute| attribute[:confidence].to_i}
-    sentence = self.sentences.new(origin_sentence: attribute[:candidate], language_code: language_code)
+    sentence = self.sentences.new(user_id: self.user_id, origin_sentence: attribute[:candidate], language_code: language_code)
     sentence.status = :initialize
     sentence.save!
     import_list = []
