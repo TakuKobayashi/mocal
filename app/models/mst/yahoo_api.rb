@@ -33,7 +33,7 @@ class Mst::YahooApi < Mst::ApiConfig
   end
 
   def dependency(xml_hash)
-    p xml_hash
+    return nil if xml_hash["ResultSet"]["Result"].blank?
     array = xml_hash["ResultSet"]["Result"]["ChunkList"]["Chunk"]
     r = [array].flatten.map do |hash|
       [hash["MorphemList"]["Morphem"]].flatten.map do |h|
@@ -48,6 +48,7 @@ class Mst::YahooApi < Mst::ApiConfig
   end
 
   def key_phrase(xml_hash)
+    return nil if xml_hash["ResultSet"]["Result"].blank?
     array = xml_hash["ResultSet"]["Result"]
     r = [array].flatten.map.each do |hash|
       result = {}
@@ -61,6 +62,7 @@ class Mst::YahooApi < Mst::ApiConfig
   end
 
   def fixture_sentence(xml_hash)
+    return nil if xml_hash["ResultSet"]["Result"].blank?
     array = xml_hash["ResultSet"]["Result"]
     r = [array].flatten.map.each do |hash|
       result = {}

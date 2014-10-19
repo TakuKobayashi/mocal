@@ -34,6 +34,7 @@ class Sentence < ActiveRecord::Base
   def analyze!
     request_result = Mst::YahooApi.request_text_analize_api(self.origin_sentence)
     request_result.each do |key, values|
+      next if values.blank?
       if key == "dependency"
         values.each do |list|
           morpheme_list = []
