@@ -67,8 +67,6 @@ gem 'omniauth-facebook'
 #認証後twitterにtweetするためのもの
 gem 'twitter'
 
-gem "rails-backbone"
-
 gem 'underscore-rails'
 
 gem 'whenever', :require => false
