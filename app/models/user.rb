@@ -18,6 +18,6 @@ class User < ActiveRecord::Base
   has_one  :user_attribute
   has_many :sns_configs
   has_many :speech_recognizes
-  has_many :commets
+  has_many :comments
   has_many :sentences
 end

@@ -67,7 +67,11 @@ Rails.application.routes.draw do
 
   resources :proceedings
 
-  resources :comments
+  resources :comments do
+    collection do
+      post :input, format: false, defaults: { format: :json } 
+    end
+  end
 
   resources :sns_connections
 

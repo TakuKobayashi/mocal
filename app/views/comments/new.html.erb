@@ -1,0 +1,7 @@
+解析します。<br>何か入力してください。<br>
+<%= form_tag input_comments_url do %>
+  <%= hidden_field_tag :language_code, "ja" %>
+  <%= hidden_field_tag :token, SecureRandom.hex %>
+  <%= text_area_tag :sentence %><br>
+  <%= submit_tag "投稿" %>
+<% end %>
