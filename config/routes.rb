@@ -81,6 +81,10 @@ Rails.application.routes.draw do
       post :speak
       post :stop
     end
+
+    resource :environment, controller: :environment do
+      get :ulterviolet
+    end
   end
 
   get "/auth/:provider/callback" => "sns_connections#create"

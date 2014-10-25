@@ -19,11 +19,12 @@
 #
 
 class Mst::EnvironmentSensor < ActiveRecord::Base
+  has_many :environment_data, class_name: "EnvironmentData", foreign_key: "mst_environment_sensor_id"
   def self.importApiData(data)
     array = data["sensor"]
     data_list = []
     array.each do |cell|
-      data_list << Mst::EnvironmentSensor.new(senser_id: cell["id"], place_name: cell["name"], prefecture: cell["prefecture"], city: cell["city"], lat: cell["lat"], lon: cell["lon"])
+      data_list << Mst::EnvironmentSensor.new(sensor_id: cell["id"], place_name: cell["name"], prefecture: cell["prefecture"], city: cell["city"], lat: cell["lat"], lon: cell["lon"])
     end
     Mst::EnvironmentSensor.import(data_list)
   end
