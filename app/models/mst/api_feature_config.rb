@@ -29,7 +29,9 @@ class Mst::ApiFeatureConfig < ActiveRecord::Base
   enum category: [
     :dependency,
     :key_phrase,
-    :fixture_sentence
+    :fixture_sentence,
+    :environment_sensor,
+    :environment_data
   ]
 
   def parse_to_hash(result)
