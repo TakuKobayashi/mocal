@@ -20,7 +20,7 @@ class Mst::YahooApi < Mst::ApiConfig
     api_config = Mst::ApiConfig.where(type: "Mst::YahooApi").first
     api_config.api_feature_configs.each do |feature_config|
       hash = feature_config.request_api(:post, {sentence: text, appid: api_config.api_key})
-      result[feature_config.api_tag] = api_config.send(feature_config.api_tag , hash)
+      result[feature_config.category] = api_config.send(feature_config.category , hash)
       log = feature_config.api_use_logs.first_or_initialize
       if log.last_used_at.blank? || log.last_used_at.beginning_of_day < Time.current.beginning_of_day
         log.last_used_at = 0

@@ -73,6 +73,13 @@ gem 'whenever', :require => false
 
 gem 'httpclient'
 
+#お手軽メンテナンスモード
+gem 'turnout'
+
+#エクセル操作
+gem 'roo'
+
+
 group :test do
   gem 'spork'
   gem 'guard-spork'

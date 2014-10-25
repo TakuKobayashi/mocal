@@ -26,6 +26,12 @@ class Mst::ApiFeatureConfig < ActiveRecord::Base
     :xml
   ]
 
+  enum category: [
+    :dependency,
+    :key_phrase,
+    :fixture_sentence
+  ]
+
   def parse_to_hash(result)
     if self.request_format.to_sym == :json
       hash = JSON.parse(result)
