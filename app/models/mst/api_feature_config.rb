@@ -31,7 +31,8 @@ class Mst::ApiFeatureConfig < ActiveRecord::Base
     :key_phrase,
     :fixture_sentence,
     :environment_sensor,
-    :environment_data
+    :environment_data,
+    :nazuki_analize
   ]
 
   def parse_to_hash(result)
@@ -43,9 +44,9 @@ class Mst::ApiFeatureConfig < ActiveRecord::Base
     return hash
   end
 
-  def request_api(method = :post, params = {})
+  def request_api(method = :post, params = {}, header = {})
     http_client = HTTPClient.new
-    response = http_client.send(method, self.request_url, params)
+    response = http_client.send(method, self.request_url, params, header)
     return self.parse_to_hash(response.body)
   end
 end

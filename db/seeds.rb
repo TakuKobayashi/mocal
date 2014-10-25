@@ -15,8 +15,37 @@ def bench(title = "")
   context
 end
 
-bench("api_info") do
-  book = ::Roo::Excel.new("db/mst_data/mst_api_config.xls")
+def import_sheet(sheet, base_class, options = {})
+  datas = []
+  headers = sheet.row(1)
+  rindex = 1
+  sheet.each do |row| # Arrayのeachではない。
+    if rindex > 1
+      datas << headers.each_with_index.each_with_object({}) do |(col, cindex), o|
+        if col.blank?
+          # do nothing
+        else
+          o[col] = sheet.cell(rindex, cindex + 1)
+        end
+      end
+    end
+    break if options[:limit] && (rindex + 1) == options[:limit]
+    rindex += 1
+  end
+  mod_datas = datas.compact.map do |data|
+    data = data.with_indifferent_access
+    data = yield(data) if block_given?
+    case true
+    when data.is_a?(Hash) then base_class.create!(data)
+    when data.is_a?(Array) then data.map {|d| base_class.create!(d)}
+    end
+  end.compact.flatten
+
+  #base_class.import(mod_datas)
+end
+
+bench("mst_api_config") do
+  book = ::Roo::Excelx.new("db/mst_data/mst_api_config.xlsx")
   import_sheet(book.sheet("mst_api_configs"), Mst::ApiConfig)
-  import_sheet(book.sheet("api_feature_configs"), Mst::ApiFeatureConfig)
+  import_sheet(book.sheet("mst_api_feature_configs"), Mst::ApiFeatureConfig)
 end
