@@ -28,10 +28,13 @@ class Mst::DocomoApi < Mst::ApiConfig
     ultraviolet: 2221
   }
 
-  def self.request_location_environment_api()
+  #約500m
+  ROUND = 0.00046
+
+  def self.request_location_environment_api(lat, lon)
     mst_docomo_api = Mst::DocomoApi.first
     mst_docomo_api.api_feature_configs.map do |feature|
-       hash = feature.request_api(:post, {"APIKEY" => mst_docomo_api.api_key, lat: 35.658704, lot: 139.745408, range: 0.5, with_data: true, data_type: 1213, limit: 100})
+       hash = feature.request_api(:get, {"APIKEY" => mst_docomo_api.api_key, lat: lat, lot: lon, range: ROUND, with_data: true, data_type: DATA_TYPE[:ultraviolet], limit: "100,0"})
        puts hash
        hash
     end
