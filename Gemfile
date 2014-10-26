@@ -79,6 +79,9 @@ gem 'turnout'
 #エクセル操作
 gem 'roo'
 
+#sendgrid https://github.com/stephenb/sendgrid
+gem 'sendgrid'
+
 
 group :test do
   gem 'spork'
