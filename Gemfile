@@ -79,9 +79,19 @@ gem 'turnout'
 #エクセル操作
 gem 'roo'
 
+gem "paranoia", "~> 2.0"
+
 #sendgrid https://github.com/stephenb/sendgrid
 gem 'sendgrid'
 
+# Facebook API
+gem 'koala'
+
+gem 'google-api-client', require: 'google/api_client'
+
+gem "paranoia", "~> 2.0"
+
+gem 'omniauth-google-oauth2'
 
 group :test do
   gem 'spork'
