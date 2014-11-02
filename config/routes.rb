@@ -59,9 +59,9 @@ Rails.application.routes.draw do
 
   resource :debug, controller: :debug
 
-  resources :user do
+  resources :users do
     collection do
-      post :create_device
+      post :create_device, format: false, defaults: { format: :json }
     end
   end
 

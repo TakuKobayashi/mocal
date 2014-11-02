@@ -15,5 +15,5 @@
 #  index_devices_on_user_id      (user_id)
 #
 
-class AndroidDevice < ActiveRecord::Base
+class AndroidDevice < Device
 end

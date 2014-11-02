@@ -3,10 +3,8 @@ class UsersController < BaseController
   skip_before_filter :verify_authenticity_token
 
   def create_device
-    auth_token = Base64.decode64(params[:auth_token].to_s.strip)
-    mac_address = Security::RSA.private_decrypt(auth_token)
     User.transaction do
-      @device = AndroidDevice.where(mac_address: mac_address).first_or_initialize
+      @device = AndroidDevice.where(mac_address: params[:auth_token]).first_or_initialize
       if @device.user.present?
         @user = @device.user
       else
