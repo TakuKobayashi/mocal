@@ -37,7 +37,7 @@ class Mst::DocomoApi < Mst::ApiConfig
      Mst::EnvironmentSensor.importApiData(feature.request_api(:get,{"APIKEY" => mst_docomo_api.api_key, with_data: true, data_type: DATA_TYPE[:ultraviolet], limit: "1000,0"}))
   end
 
-  def self.import_environment_data(data_type, mst_environment_sensor, datetime_from = 1.day.ago)
+  def self.import_environment_data(data_type, mst_environment_sensor, datetime_from = 1.month.ago)
     mst_docomo_api = Mst::DocomoApi.first
     feature = mst_docomo_api.api_feature_configs.environment_data.first
     data = feature.request_api(:get,{"APIKEY" => mst_docomo_api.api_key, sensor: mst_environment_sensor.sensor_id, datetime_from: datetime_from.strftime("%Y-%m-%d"), datetime_to: Time.current.strftime("%Y-%m-%d"), data_type: data_type, limit: "1000,0"})
