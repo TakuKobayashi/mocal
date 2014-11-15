@@ -49,3 +49,8 @@ bench("mst_api_config") do
   import_sheet(book.sheet("mst_api_configs"), Mst::ApiConfig)
   import_sheet(book.sheet("mst_api_feature_configs"), Mst::ApiFeatureConfig)
 end
+
+bench("mst_company") do
+  book = ::Roo::Excelx.new("db/mst_data/mst_comany.xlsx")
+  import_sheet(book.sheet("mst_companies"), Mst::Company)
+end
