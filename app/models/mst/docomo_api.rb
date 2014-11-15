@@ -16,4 +16,9 @@
 #
 
 class Mst::DocomoApi < Mst::ApiConfig
+  def self.request_torendo(word)
+    api = Mst::DocomoApi.first
+    feature = api.api_feature_configs.torendo.first
+    data = feature.request_api(:get,{"APIKEY" => api.api_key, keyword: word.to_s, lang: :ja, format: feature.request_format, s: 1, n: 50})
+  end
 end
