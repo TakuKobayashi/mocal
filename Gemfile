@@ -33,14 +33,6 @@ gem 'execjs'
 
 gem 'less-rails'
 
-gem "twitter-bootstrap-rails"
-
-# twitter bootstrap css & javascript toolkit
-gem 'twitter-bootswatch-rails', '~> 3.2.0'
-
-# twitter bootstrap helpers gem, e.g., alerts etc...
-gem 'twitter-bootswatch-rails-helpers'
-
 gem 'd3js-rails'
 
 gem 'devise'
@@ -53,23 +45,13 @@ gem "delayed_job_active_record"
 # デプロイ先でデーモンとして動かすのに必要
 gem "daemons"
 
-gem 'addressable'
-
 gem 'jpmobile'
 
-gem 'useragent'
-
-#マルチプラットフォームに対応したOauth認証用
 gem 'omniauth'
 gem 'omniauth-twitter'
-gem 'omniauth-facebook'
 
 #認証後twitterにtweetするためのもの
 gem 'twitter'
-
-gem 'underscore-rails'
-
-gem 'whenever', :require => false
 
 gem 'httpclient'
 
@@ -80,18 +62,6 @@ gem 'turnout'
 gem 'roo'
 
 gem "paranoia", "~> 2.0"
-
-#sendgrid https://github.com/stephenb/sendgrid
-gem 'sendgrid'
-
-# Facebook API
-gem 'koala'
-
-gem 'google-api-client', require: 'google/api_client'
-
-gem "paranoia", "~> 2.0"
-
-gem 'omniauth-google-oauth2'
 
 group :test do
   gem 'spork'
