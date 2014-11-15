@@ -4,7 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  sentence_id :integer          not null
-#  word        :string(255)      not null
+#  word        :string(255)
 #  score       :float(24)        default(0.0), not null
 #  created_at  :datetime
 #  updated_at  :datetime

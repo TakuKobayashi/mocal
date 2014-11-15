@@ -54,4 +54,5 @@ bench("mst_company") do
   book = ::Roo::Excelx.new("db/mst_data/mst_company.xlsx")
   import_sheet(book.sheet("articles"), Article)
   import_sheet(book.sheet("mst_companies"), Mst::Company)
+  import_sheet(book.sheet("companies"), Company)
 end
