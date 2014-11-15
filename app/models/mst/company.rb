@@ -9,4 +9,5 @@
 #
 
 class Mst::Company < ActiveRecord::Base
+
 end
