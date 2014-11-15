@@ -56,6 +56,9 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
   namespace :api, format: false, defaults: { format: :json } do
+    get 'asahi'
+    get 'companyDetail'
+    get 'social'
   end
 
   root to: "top#index"
