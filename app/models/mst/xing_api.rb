@@ -16,5 +16,8 @@
 
 class Mst::XingApi < Mst::ApiConfig
   def self.request_text_analize_api(text)
+    api = Mst::XingApi.first
+    feature = api.api_feature_configs.morphological_analysis.first
+    data = feature.request_api(:get,{acckey: api.api_key, sent: text})
   end
 end

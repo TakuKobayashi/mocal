@@ -28,12 +28,6 @@ class Mst::ApiFeatureConfig < ActiveRecord::Base
   ]
 
   enum category: [
-    :dependency,
-    :key_phrase,
-    :fixture_sentence,
-    :environment_sensor,
-    :environment_data,
-    :nazuki_analize,
     :morphological_analysis
   ]
 
