@@ -1,22 +1,16 @@
 # == Schema Information
 #
-# Table name: sentences
+# Table name: mst_companies
 #
 #  id         :integer          not null, primary key
-#  article_id :integer          not null
-#  body       :text
-#  score      :float(24)        default(0.0), not null
+#  name       :string(255)      not null
 #  created_at :datetime
 #  updated_at :datetime
-#
-# Indexes
-#
-#  index_sentences_on_article_id  (article_id)
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :sentence do
+  factory :mst_company, :class => 'Mst::Company' do
   end
 end
