@@ -137,6 +137,8 @@ GEM
     jbuilder (2.2.4)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
+    jpbuilder (0.2.5)
+      jbuilder
     jpmobile (4.1.2)
     jquery-rails (3.1.2)
       railties (>= 3.0, < 5.0)
@@ -335,6 +337,7 @@ DEPENDENCIES
   guard-spork
   httpclient
   jbuilder (~> 2.0)
+  jpbuilder
   jpmobile
   jquery-rails
   kaminari
