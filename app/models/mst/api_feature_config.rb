@@ -33,7 +33,8 @@ class Mst::ApiFeatureConfig < ActiveRecord::Base
     :fixture_sentence,
     :environment_sensor,
     :environment_data,
-    :nazuki_analize
+    :nazuki_analize,
+    :morphological_analysis
   ]
 
   def parse_to_hash(result)
