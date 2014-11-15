@@ -9,13 +9,14 @@
 #
 # # Ignore the default SQLite database.
 /db/*.mysql3
-/config/database.yml
+
 #
 # # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
 #
 /.settings/
+/db/mst_data/mst_api_config.xlsx
 #
 /coverage
 *.DS_Store
