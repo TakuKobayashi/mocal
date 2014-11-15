@@ -20,4 +20,5 @@
 #
 
 class Article < ActiveRecord::Base
+  belongs_to :mst_company
 end
