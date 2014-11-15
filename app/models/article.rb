@@ -24,6 +24,9 @@ class Article < ActiveRecord::Base
   has_many :sentences
   belongs_to :mst_company, class_name: "Mst::Company", foreign_key: :mst_company_id
 
+  def generate!
+  end
+
   def analize!
     sentences = self.sentences
     results = Mst::XingApi.request_text_analize_api(sentences.pluck(:body).join("<!--p-->"))
