@@ -27,18 +27,27 @@ class Article < ActiveRecord::Base
   def analize!
     sentences = self.sentences
     results = Mst::XingApi.request_text_analize_api(sentences.pluck(:body).join("<!--p-->"))
-    list = []
-    results.each_with_index do |data, index|
-      data.each do |key, value|
-        list << sentences[index].send(key.pluralize).new(value)
-        sentences[index].save!
+    self.transaction do
+      results.each_with_index do |data, index|
+        data.each do |key, value|
+          list = []
+          s = sentences[index]
+          if value.instance_of?(Array)
+            value.each do |v|
+              list << s.send(key.pluralize).new(v)
+            end
+            dlist, alist = list.partition{|klass| klass.instance_of?(Dependency) }
+            Dependency.import(dlist)
+            MorphologicalAnalysis.import(alist)
+            s.reload
+          else
+            s.update!(score: Sentence::SCORE_LIST[value.to_i])
+          end
+        end
       end
+      sentences.reload
+      self.score = sentences.sum(:score)
+      self.save!
     end
-    dlist, alist = list.partition{|klass| klass.instance_of?(Dependency) }
-    Dependency.import(dlist)
-    MorphologicalAnalysis.import(alist)
-    sentences.reload
-    self.score = sentences.sum(:score)
-    self.save!
   end
 end

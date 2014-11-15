@@ -19,5 +19,21 @@ class Mst::XingApi < Mst::ApiConfig
     api = Mst::XingApi.first
     feature = api.api_feature_configs.morphological_analysis.first
     data = feature.request_api(:get,{acckey: api.api_key, sent: text})
+    arrays = data["results"].map do |cell|
+      hash = {}
+      hash["morphological_analysis"] = cell["morphemes"].map do |m|
+        nil if m["err"] == 0
+        {word: m["shuushi"], pos: m["hinshi"]}
+      end
+      hash["morphological_analysis"].compact!
+      hash["dependency"] = cell["phrases"].map do |p|
+        nil if p["err"] == 0
+        {score: Dependency::SCORE_LIST[p["ppn"].to_i]}
+      end
+      hash["dependency"].compact!
+      hash["score"] = cell["spn"]
+      hash
+    end
+    arrays
   end
 end

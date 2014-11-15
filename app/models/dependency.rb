@@ -1,3 +1,4 @@
+# coding: utf-8
 # == Schema Information
 #
 # Table name: dependencies
@@ -15,5 +16,11 @@
 #
 
 class Dependency < ActiveRecord::Base
+  #  0:評価なし 1:ポジティブ 2:ネガティブ
+  SCORE_LIST = {
+    0 => 0,
+    1 => 1,
+    2 => -1
+  }
   belongs_to :sentence
 end
