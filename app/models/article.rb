@@ -1,3 +1,4 @@
+# coding: utf-8
 # == Schema Information
 #
 # Table name: articles
@@ -20,5 +21,24 @@
 #
 
 class Article < ActiveRecord::Base
-  belongs_to :mst_company
+  has_many :sentences
+  belongs_to :mst_company, class_name: "Mst::Company", foreign_key: :mst_company_id
+
+  def analize!
+    sentences = self.sentences
+    results = Mst::XingApi.request_text_analize_api(sentences.pluck(:body).join("<!--p-->"))
+    list = []
+    results.each_with_index do |data, index|
+      data.each do |key, value|
+        list << sentences[index].send(key.pluralize).new(value)
+        sentences[index].save!
+      end
+    end
+    dlist, alist = list.partition{|klass| klass.instance_of?(Dependency) }
+    Dependency.import(dlist)
+    MorphologicalAnalysis.import(alist)
+    sentences.reload
+    self.score = sentences.sum(:score)
+    self.save!
+  end
 end
