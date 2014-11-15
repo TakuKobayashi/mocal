@@ -3,7 +3,7 @@ class Api::TopController < Api::BaseController
 
   def asahi
     @companies = Mst::Company.where("name like '%" + params[:q] + "%'")
-    if companies.length >= 1
+    if @companies.length >= 1
       @company = @companies[0]
     end
   end
@@ -17,7 +17,7 @@ class Api::TopController < Api::BaseController
 
   def social
     @companies = Mst::Company.where("name like '%" + params[:q] + "%'")
-    if companies.length >= 1
+    if @companies.length >= 1
       @company = @companies[0]
     end
   end
