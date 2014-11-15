@@ -7,21 +7,30 @@
 #  created_at :datetime
 #  updated_at :datetime
 #
-
+MAX_INT = 10000000
 class Mst::Company < ActiveRecord::Base
+  has_many :articles, foreign_key: :mst_company_id
+
+# == Asahi Functions
 
   def positiveArticle
-    {
-      :title => "記事名",
-      :body => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, et cupiditate ipsum unde modi? Perspiciatis earum aperiam maiores rem modi ipsam, ratione velit odio laborum alias, beatae veritatis a accusantium."
-    }
+    self.articles.max_by do |article|
+      if article.type == "NewsPaper"
+        article.score
+      else
+        0
+      end
+    end
   end
 
   def negativeArticle
-    {
-      :title => "記事名",
-      :body => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, et cupiditate ipsum unde modi? Perspiciatis earum aperiam maiores rem modi ipsam, ratione velit odio laborum alias, beatae veritatis a accusantium."
-    }
+    self.articles.min_by do |article|
+      if article.type == "NewsPaper"
+        article.score
+      else
+        MAX_INT
+      end
+    end
   end
 
   def positiveWord
@@ -43,24 +52,42 @@ class Mst::Company < ActiveRecord::Base
     ]
   end
 
+
+# == Social Functions
+
   def positiveComment
-    	{
-        :body => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate assumenda dicta placeat corrupti vero dolorum, non saepe eum tenetur facilis asperiores, enim incidunt aut autem officiis laborum fuga, maxime nihil!",
-	      :score => 0
-      }
+    self.articles.max_by do |article|
+      if article.type == "Tweet"
+        article.score
+      else
+        0
+      end
+    end
   end
 
   def negativeComment
-    {
-      :body => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate assumenda dicta placeat corrupti vero dolorum, non saepe eum tenetur facilis asperiores, enim incidunt aut autem officiis laborum fuga, maxime nihil!",
-      :score => 0
-    }
+    self.articles.min_by do |article|
+      if article.type == "Tweet"
+        article.score
+      else
+        MAX_INT
+      end
+    end
   end
 
   def socialTrend
+    positive_score = 0
+    negative_score = 0
+    self.articles.map do |article|
+      if article.score > 0
+        positive_score += article.score
+      else
+        negative_score += article.score
+      end
+    end
     {
-	     :positive => 0000,
-	     :negative => 0000
+	     :positive => positive_score,
+	     :negative => negative_score
 	  }
   end
 
