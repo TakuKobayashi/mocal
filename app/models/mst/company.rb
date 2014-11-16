@@ -15,25 +15,17 @@ class Mst::Company < ActiveRecord::Base
   has_many :articles, foreign_key: :mst_company_id
   has_many :prices, -> {order(reported_at: :desc)}, foreign_key: :mst_company_id
 
-# == Asahi Functions
+  # == Asahi Functions
 
   def positiveArticle
-    self.articles.max_by do |article|
-      if article.type == "NewsPaper"
-        article.score
-      else
-        0
-      end
+    self.articles.where(:type => "NewsPaper").max_by do |article|
+      article.score
     end
   end
 
   def negativeArticle
-    self.articles.min_by do |article|
-      if article.type == "NewsPaper"
-        article.score
-      else
-        MAX_INT
-      end
+    self.articles.where(:type => "NewsPaper").min_by do |article|
+      article.score
     end
   end
 
@@ -61,6 +53,48 @@ class Mst::Company < ActiveRecord::Base
     ]
   end
 
+  # == Social Functions
+
+  def positiveComment
+    tweets = self.articles.where(:type => "Tweet")
+    if tweets.length == 0
+      Article.new()
+    else
+      tweets.max_by do |article|
+        article.score
+      end
+    end
+  end
+
+  def negativeComment
+    tweets = self.articles.where(:type => "Tweet")
+    if tweets.length == 0
+      Article.new()
+    else
+      tweets.min_by do |article|
+        article.score
+      end
+    end
+  end
+
+  def socialTrend
+    positive_score = 0
+    negative_score = 0
+    self.articles.map do |article|
+      if article.score > 0
+        positive_score += article.score
+      else
+        negative_score += article.score
+      end
+    end
+    {
+      :positive => positive_score,
+      :negative => negative_score
+    }
+  end
+
+  # == Private Functions
+
   private
   def linner_least_squares(matrix)
     a = b = c = d = 0.0
@@ -81,45 +115,6 @@ class Mst::Company < ActiveRecord::Base
     else
       -1
     end
-  end
-
-
-# == Social Functions
-
-  def positiveComment
-    self.articles.max_by do |article|
-      if article.type == "Tweet"
-        article.score
-      else
-        0
-      end
-    end
-  end
-
-  def negativeComment
-    self.articles.min_by do |article|
-      if article.type == "Tweet"
-        article.score
-      else
-        MAX_INT
-      end
-    end
-  end
-
-  def socialTrend
-    positive_score = 0
-    negative_score = 0
-    self.articles.map do |article|
-      if article.score > 0
-        positive_score += article.score
-      else
-        negative_score += article.score
-      end
-    end
-    {
-	     :positive => positive_score,
-	     :negative => negative_score
-	  }
   end
 
 end
