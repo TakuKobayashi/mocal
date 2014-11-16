@@ -15,10 +15,11 @@
 #
 
 class Mst::AsahiApi < Mst::ApiConfig
-  def self.request_article(word)
+  def self.request_article(word, option = {})
     api = Mst::AsahiApi.first
     feature = api.api_feature_configs.article.first
-    data = feature.request_api(:post,{ackey: api.api_key, q: "Body:" + word.to_s})
+    data = feature.request_api(:post, option.merge!(ackey: api.api_key, q: "Body:" + word.to_s))
+    return [] if data.blank? || data["response"]["result"]["doc"].blank?
     array = data["response"]["result"]["doc"].map do |doc|
       hash = {}
       doc.each do |k, v|
@@ -38,26 +39,29 @@ class Mst::AsahiApi < Mst::ApiConfig
   end
 
   def self.generate_articles!(mst_company)
-    data = Mst::AsahiApi.request_article(mst_company.name)
-    articles = data.map do |h|
-      h["mst_company_id"] = mst_company.id
-      h["type"] = "NewsPaper"
-      article = Article.new(h)
-      article.save!
-      list = []
-      article.body.split(/\s*(¥n|。)\s*/).each do |b|
-      	next if b.blank?
-        list << article.sentences.new(body: b)
-      end
-      Sentence.import(list)
-      article.reload
-      if article.title.blank?
-        article.title = article.sentences.first.try(:body).to_s
+  	start = 1
+    while(true) do
+      data = Mst::AsahiApi.request_article(mst_company.name, rows: 100, start: start)
+      break if data.blank?
+      start += 100
+      articles = data.each do |h|
+        h["mst_company_id"] = mst_company.id
+        h["type"] = "NewsPaper"
+        article = Article.new(h)
         article.save!
+        list = []
+        article.body.split(/\s*(¥n|。)\s*/).each do |b|
+      	  next if b.blank?
+          list << article.sentences.new(body: b)
+        end
+        Sentence.import(list)
+        article.reload
+        if article.title.blank?
+          article.title = article.sentences.first.try(:body).to_s
+          article.save!
+        end
+        article.analize!
       end
-      article.analize!
-      article
     end
-    articles
   end
 end
