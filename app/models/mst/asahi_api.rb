@@ -52,7 +52,7 @@ class Mst::AsahiApi < Mst::ApiConfig
         list = []
         article.body.split(/\s*(¥n|。)\s*/).each do |b|
       	  next if b.blank?
-          list << article.sentences.new(body: b)
+          list << article.sentences.new(body: b, mst_company_id: mst_company.id)
         end
         Sentence.import(list)
         article.reload
