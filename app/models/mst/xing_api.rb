@@ -28,7 +28,7 @@ class Mst::XingApi < Mst::ApiConfig
       hash["morphological_analysis"].compact!
       hash["dependency"] = cell["phrases"].map do |p|
         nil if p["err"] == 0
-        {score: Dependency::SCORE_LIST[p["ppn"].to_i]}
+        {score: Dependency::SCORE_LIST[p["ppn"].to_i], word: p["jshuushi"].to_s + p["fshuushi"].to_s, pos: p["jhinshi"].to_s}
       end
       hash["dependency"].compact!
       hash["score"] = cell["spn"]

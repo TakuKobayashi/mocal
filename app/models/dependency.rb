@@ -7,11 +7,13 @@
 #  sentence_id :integer          not null
 #  word        :string(255)
 #  score       :float(24)        default(0.0), not null
+#  pos         :string(255)      not null
 #  created_at  :datetime
 #  updated_at  :datetime
 #
 # Indexes
 #
+#  index_dependencies_on_pos          (pos)
 #  index_dependencies_on_sentence_id  (sentence_id)
 #
 
