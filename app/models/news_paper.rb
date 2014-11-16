@@ -9,6 +9,7 @@
 #  body           :text
 #  title          :string(255)
 #  post_at        :datetime
+#  category       :integer
 #  created_at     :datetime
 #  updated_at     :datetime
 #
