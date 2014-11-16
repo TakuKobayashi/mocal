@@ -131,6 +131,7 @@ section {
 /* line 103, ../sass/main.scss */
 #search-area {
   background-image: url(../images/goldtexture.jpg);
+  background-position: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.43) inset;
   -webkit-background-size: cover;
   -o-background-size: cover;
@@ -138,12 +139,12 @@ section {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 112, ../sass/main.scss */
+/* line 113, ../sass/main.scss */
 #search-area .inside {
   width: 310px;
   margin: 10px auto 10px auto;
 }
-/* line 118, ../sass/main.scss */
+/* line 119, ../sass/main.scss */
 #search-area .inputbox {
   border: 1px solid #444;
   background-color: #FFF;
@@ -152,16 +153,16 @@ section {
   position: relative;
   display: inline-block;
 }
-/* line 126, ../sass/main.scss */
+/* line 127, ../sass/main.scss */
 #search-area .inputbox.active {
   box-shadow: 0 0 2px white,0 0 8px white,0 0 8px white;
   border-color: #A6D1DD;
 }
-/* line 130, ../sass/main.scss */
+/* line 131, ../sass/main.scss */
 #search-area .inputbox.inputed {
   background-image: none;
 }
-/* line 134, ../sass/main.scss */
+/* line 135, ../sass/main.scss */
 #search-area #search-input {
   font-size: 16px;
   color: #666;
@@ -171,7 +172,7 @@ section {
   border: 0px;
   background-color: transparent;
 }
-/* line 145, ../sass/main.scss */
+/* line 146, ../sass/main.scss */
 #search-area #search-submit {
   background-image: url(../images/search-submit.svg);
   background-color: #F9E073;
@@ -186,35 +187,35 @@ section {
   position: relative;
   top: -3px;
 }
-/* line 160, ../sass/main.scss */
+/* line 161, ../sass/main.scss */
 #search-area .mainvis {
   display: block;
   margin: 0 auto;
 }
-/* line 165, ../sass/main.scss */
+/* line 166, ../sass/main.scss */
 #search-area .mainvis {
   width: 300px;
 }
 
-/* line 171, ../sass/main.scss */
+/* line 172, ../sass/main.scss */
 #result ul, #result li {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
-/* line 175, ../sass/main.scss */
+/* line 176, ../sass/main.scss */
 #result > ul > li {
   min-width: 280px;
   float: left;
 }
-/* line 177, ../sass/main.scss */
+/* line 178, ../sass/main.scss */
 #result > ul > li :after {
   content: "";
   clear: both;
   display: block;
 }
 @media only screen and (max-width: 567px) {
-  /* line 187, ../sass/main.scss */
+  /* line 188, ../sass/main.scss */
   #result > ul > li {
     float: none;
     width: 100%;
@@ -222,62 +223,62 @@ section {
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 197, ../sass/main.scss */
+  /* line 198, ../sass/main.scss */
   #result > ul > li {
     width: 50%;
     max-width: none;
   }
-  /* line 205, ../sass/main.scss */
+  /* line 206, ../sass/main.scss */
   #result > ul#overview > li {
     width: 100%;
   }
-  /* line 206, ../sass/main.scss */
+  /* line 207, ../sass/main.scss */
   #result > ul#overview .name {
     font-size: 30px;
   }
-  /* line 209, ../sass/main.scss */
+  /* line 210, ../sass/main.scss */
   #result > ul#asahi > li:last-child {
     width: 100%;
   }
 }
 @media only screen and (max-width: 1200px) {
-  /* line 215, ../sass/main.scss */
+  /* line 216, ../sass/main.scss */
   #result > ul > li {
     width: 33.33%;
     max-width: 450px;
   }
-  /* line 221, ../sass/main.scss */
+  /* line 222, ../sass/main.scss */
   #result > ul#overview > li {
     width: 66.66%;
   }
-  /* line 222, ../sass/main.scss */
+  /* line 223, ../sass/main.scss */
   #result > ul#overview .name {
     font-size: 35px;
   }
-  /* line 225, ../sass/main.scss */
+  /* line 226, ../sass/main.scss */
   #result > ul#asahi > li:last-child {
     width: 66.66%;
   }
 }
 @media only screen and (max-width: 1400px) {
-  /* line 231, ../sass/main.scss */
+  /* line 232, ../sass/main.scss */
   #result > ul > li {
     width: 25%;
   }
-  /* line 238, ../sass/main.scss */
+  /* line 239, ../sass/main.scss */
   #result > ul#overview > li {
     width: 50%;
   }
-  /* line 239, ../sass/main.scss */
+  /* line 240, ../sass/main.scss */
   #result > ul#overview .name {
     font-size: 30px;
   }
-  /* line 243, ../sass/main.scss */
+  /* line 244, ../sass/main.scss */
   #result > ul#asahi > li:last-child {
     width: 50%;
   }
 }
-/* line 247, ../sass/main.scss */
+/* line 248, ../sass/main.scss */
 #result .card {
   padding: 8px;
   margin: 8px;
@@ -287,7 +288,7 @@ section {
   opacity: 0;
   background-color: #FFF;
 }
-/* line 256, ../sass/main.scss */
+/* line 257, ../sass/main.scss */
 #result .card h2 {
   font-size: 18px;
   margin: -8px -8px 0 -8px;
@@ -297,7 +298,7 @@ section {
   padding: 9px 15px;
   color: #999;
 }
-/* line 267, ../sass/main.scss */
+/* line 268, ../sass/main.scss */
 #result .card.active {
   -moz-transition: -moz-transform 0.3s ease-in-out 0s, opacity 0.3s ease-in-out 0s;
   -o-transition: -o-transform 0.3s ease-in-out 0s, opacity 0.3s ease-in-out 0s;
@@ -307,14 +308,14 @@ section {
   transform: translate3d(0, 0, 0);
   opacity: 1;
 }
-/* line 275, ../sass/main.scss */
+/* line 276, ../sass/main.scss */
 #result .overview .name {
   font-size: 28px;
   line-height: 1em;
   border-bottom: 1px solid #ccc;
   padding: 0 0 6px 0;
 }
-/* line 282, ../sass/main.scss */
+/* line 283, ../sass/main.scss */
 #result .overview .badge,
 #result .overview .timestamp {
   display: inline-block;
@@ -327,21 +328,21 @@ section {
   position: relative;
   top: -2px;
 }
-/* line 295, ../sass/main.scss */
+/* line 296, ../sass/main.scss */
 #result .overview .stockPrice {
   font-size: 22px;
   padding: 6px 0 0 3px;
   font-family: Helvetica,Arial;
 }
-/* line 301, ../sass/main.scss */
+/* line 302, ../sass/main.scss */
 #result .overview .negative .stockPrice {
   color: #B00;
 }
-/* line 302, ../sass/main.scss */
+/* line 303, ../sass/main.scss */
 #result .overview .positive .stockPrice {
   color: #00A622;
 }
-/* line 305, ../sass/main.scss */
+/* line 306, ../sass/main.scss */
 #result .overview .vector div {
   width: 24px;
   height: 24px;
@@ -358,26 +359,26 @@ section {
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.43), 0 -2px 3px rgba(0, 0, 0, 0.1) inset;
   font-size: 13px;
 }
-/* line 323, ../sass/main.scss */
+/* line 324, ../sass/main.scss */
 #result .overview .positive .vector div {
   background-color: #00A622;
 }
-/* line 324, ../sass/main.scss */
+/* line 325, ../sass/main.scss */
 #result .overview .negative .vector div {
   background-color: #B00;
 }
-/* line 330, ../sass/main.scss */
+/* line 331, ../sass/main.scss */
 #result .positive-article p,
 #result .negative-article p {
   font-family: serif;
 }
-/* line 337, ../sass/main.scss */
+/* line 338, ../sass/main.scss */
 #result .positive-word ol,
 #result .negative-word ol {
   list-style-type: decimal;
   padding-left: 24px;
 }
-/* line 338, ../sass/main.scss */
+/* line 339, ../sass/main.scss */
 #result .positive-word li,
 #result .negative-word li {
   list-style-type: decimal;
@@ -387,35 +388,35 @@ section {
   margin: 3px -3px 3px 3px;
   border-bottom: 1px dotted #ccc;
 }
-/* line 346, ../sass/main.scss */
+/* line 347, ../sass/main.scss */
 #result .positive-word li:last-child,
 #result .negative-word li:last-child {
   border-bottom: none;
 }
 
-/* line 353, ../sass/main.scss */
+/* line 354, ../sass/main.scss */
 #judgements {
   text-align: center;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 357, ../sass/main.scss */
+/* line 358, ../sass/main.scss */
 #judgements ul, #judgements ul li {
   margin: 0;
   padding: 0;
 }
-/* line 360, ../sass/main.scss */
+/* line 361, ../sass/main.scss */
 #judgements ul li {
   position: relative;
   display: inline-block;
 }
-/* line 364, ../sass/main.scss */
+/* line 365, ../sass/main.scss */
 .phone #judgements ul li {
   display: block;
   float: left;
   width: 90%;
 }
-/* line 369, ../sass/main.scss */
+/* line 370, ../sass/main.scss */
 #judgements ul li div.inside {
   width: 250px;
   height: 300px;
@@ -427,11 +428,11 @@ section {
   transition: top 0.3s ease-in-out;
   margin: 0 auto;
 }
-/* line 377, ../sass/main.scss */
+/* line 378, ../sass/main.scss */
 #judgements ul li div.inside:hover {
   top: 0px;
 }
-/* line 381, ../sass/main.scss */
+/* line 382, ../sass/main.scss */
 #judgements ul li .graph {
   width: 48%;
   left: 25%;
@@ -457,12 +458,12 @@ section {
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 }
-/* line 407, ../sass/main.scss */
+/* line 408, ../sass/main.scss */
 #judgements ul li .graph > img {
   width: 100%;
   display: block;
 }
-/* line 409, ../sass/main.scss */
+/* line 410, ../sass/main.scss */
 #judgements ul li .upper, #judgements ul li .lower {
   position: absolute;
   left: 0;
@@ -473,17 +474,17 @@ section {
   -o-background-size: 100% auto;
   background-size: 100% auto;
 }
-/* line 417, ../sass/main.scss */
+/* line 418, ../sass/main.scss */
 #judgements ul li .upper {
   background-position: top;
   z-index: 30;
 }
-/* line 421, ../sass/main.scss */
+/* line 422, ../sass/main.scss */
 #judgements ul li .lower {
   background-position: bottom;
   z-index: 10;
 }
-/* line 426, ../sass/main.scss */
+/* line 427, ../sass/main.scss */
 #judgements ul li .resultCard {
   width: 90%;
   margin: 0 auto;
@@ -496,7 +497,7 @@ section {
   color: #FFF;
   display: none;
 }
-/* line 440, ../sass/main.scss */
+/* line 441, ../sass/main.scss */
 #judgements ul li .baloon {
   width: 100px;
   height: 100px;
@@ -510,17 +511,17 @@ section {
   text-align: center;
   letter-spacing: -1px;
 }
-/* line 458, ../sass/main.scss */
+/* line 459, ../sass/main.scss */
 #judgements .kobayashi .puppet {
   background-image: url(../images/judgement/kobayashi.png);
 }
 
-/* line 463, ../sass/main.scss */
+/* line 464, ../sass/main.scss */
 .ui-helper-hidden-accessible, .ui-autocomplete {
   display: none;
 }
 
-/* line 469, ../sass/main.scss */
+/* line 470, ../sass/main.scss */
 p {
   max-height: 150px;
   overflow: hidden;
