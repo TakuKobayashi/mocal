@@ -10,23 +10,32 @@
 #  updated_at    :datetime
 #
 
-MAX_INT = 10000000
 class Mst::Company < ActiveRecord::Base
-  has_many :articles, foreign_key: :mst_company_id
+  has_many :articles, ->{order(post_at: :desc)}, foreign_key: :mst_company_id
   has_many :prices, -> {order(reported_at: :desc)}, foreign_key: :mst_company_id
   has_many :sentences, foreign_key: :mst_company_id
 
   # == Asahi Functions
 
   def positiveArticle
-    self.articles.where(:type => "NewsPaper").max_by do |article|
-      article.score
+    paper_articles = self.articles.where(:type => "NewsPaper")
+    if paper_articles.length == 0
+      Article.new()
+    else
+      paper_articles.max_by do |article|
+        article.score
+      end
     end
   end
 
   def negativeArticle
-    self.articles.where(:type => "NewsPaper").min_by do |article|
-      article.score
+    paper_articles = self.articles.where(:type => "NewsPaper")
+    if paper_articles.length == 0
+      Article.new()
+    else
+      paper_articles.min_by do |article|
+        article.score
+      end
     end
   end
 
@@ -44,14 +53,16 @@ class Mst::Company < ActiveRecord::Base
   end
 
   def emotionGraph
-    [
-      [20149999,00000,00000],
-      [20149999,00000,00000],
-      [20149999,00000,00000],
-      [20149999,00000,00000],
-      [20149999,00000,00000],
-      [20149999,00000,00000]
-    ]
+    articles = self.articles.where(:type => "NewsPaper").limit(20).reverse
+    if articles.length == 0
+      [0,0,0]
+    else
+      articles.map do |article|
+        pos_sum = article.sentences.inject {|sum, sentence| sum + (sentence.score>0) ? sentence.score : 0 }
+        neg_sum = article.sentences.inject {|sum, sentence| sum + (sentence.score<0) ? sentence.score : 0 }
+        [article.post_at.strftime("%Y%m%d"), pos_sum, neg_sum]
+      end
+    end
   end
 
   # == Social Functions
