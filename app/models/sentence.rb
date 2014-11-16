@@ -3,16 +3,18 @@
 #
 # Table name: sentences
 #
-#  id         :integer          not null, primary key
-#  article_id :integer          not null
-#  body       :text
-#  score      :float(24)        default(0.0), not null
-#  created_at :datetime
-#  updated_at :datetime
+#  id             :integer          not null, primary key
+#  article_id     :integer          not null
+#  mst_company_id :integer
+#  body           :text
+#  score          :float(24)        default(0.0), not null
+#  created_at     :datetime
+#  updated_at     :datetime
 #
 # Indexes
 #
-#  index_sentences_on_article_id  (article_id)
+#  index_sentences_on_article_id      (article_id)
+#  index_sentences_on_mst_company_id  (mst_company_id)
 #
 
 class Sentence < ActiveRecord::Base
@@ -29,6 +31,7 @@ class Sentence < ActiveRecord::Base
     #4: 依頼
     4 => -1
   }
+  belongs_to :mst_company, class_name: "Mst::Company", foreign_key: :mst_company_id
   has_many :dependencies
   has_many :morphological_analyses
 end
