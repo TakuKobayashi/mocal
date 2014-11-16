@@ -37,6 +37,11 @@ class Mst::Company < ActiveRecord::Base
     end
   end
 
+  def vector
+    array = [(0..4), self.prices.limit(5).reverse]
+    linner_least_squares(array)
+  end
+
   def positiveWord
     ["ワード1","ワード2","ワード3","ワード4","ワード5"]
   end
@@ -54,6 +59,28 @@ class Mst::Company < ActiveRecord::Base
       [20149999,00000,00000],
       [20149999,00000,00000]
     ]
+  end
+
+  private
+  def linner_least_squares(matrix)
+    a = b = c = d = 0.0
+    matrix[0].each_with_index do |x,i|
+      y = matrix[1][i].price
+      a += x*y
+      b += x
+      c += y
+      d += x**2
+    end
+    n = matrix[0].size
+    dydx = (n*a-b*c)/(n*d-b**2)
+    dy = (d*c-a*b)/(n*d-b**2)
+    if dydx > 0
+      1
+    elsif dydx == 0
+      0
+    else
+      -1
+    end
   end
 
 
