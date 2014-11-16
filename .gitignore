@@ -16,7 +16,6 @@
 /tmp
 #
 /.settings/
-/db/mst_data/mst_api_config.xlsx
 #
 /coverage
 *.DS_Store
