@@ -15,6 +15,6 @@
 #  index_companies_on_reported_at     (reported_at)
 #
 
-class Company < ActiveRecord::Base
+class Price < ActiveRecord::Base
   belongs_to :mst_company, class_name: "Mst::Company", foreign_key: :mst_company_id
 end

@@ -13,6 +13,7 @@
 MAX_INT = 10000000
 class Mst::Company < ActiveRecord::Base
   has_many :articles, foreign_key: :mst_company_id
+  has_many :prices, foreign_key: :mst_company_id
 
 # == Asahi Functions
 
