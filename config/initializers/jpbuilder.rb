@@ -1,1 +1,1 @@
-JPbuilderHandler.default_callback = "defaultCallback"
+JPbuilderHandler.default_callback = nil
