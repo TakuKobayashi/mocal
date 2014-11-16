@@ -7,6 +7,7 @@ class CreateArticles < ActiveRecord::Migration
       t.text    :body
       t.string  :title
       t.datetime :post_at
+      t.integer  :category
       t.timestamps
     end
     add_index :articles, :mst_company_id

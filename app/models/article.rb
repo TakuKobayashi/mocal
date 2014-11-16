@@ -10,6 +10,7 @@
 #  body           :text
 #  title          :string(255)
 #  post_at        :datetime
+#  category       :integer
 #  created_at     :datetime
 #  updated_at     :datetime
 #
@@ -24,8 +25,30 @@ class Article < ActiveRecord::Base
   has_many :sentences
   belongs_to :mst_company, class_name: "Mst::Company", foreign_key: :mst_company_id
 
-  def generate!
-  end
+  CATEGORY = {
+  	0 => "地方",
+  	1 => "社会",
+  	2 => "科学医療",
+  	3 => "文化芸能",
+  	4 => "オピニオン",
+  	5 => "生活",
+  	6 => "スポーツ",
+  	7 => "テレビ",
+  	8 => "読書",
+  	9 => "教育",
+  	10 => "囲碁将棋",
+  	11 => "小説",
+  	12 => "サッカー",
+  	13 => "総合",
+  	14 => "外報",
+  	15 => "経済",
+  	16 => "政治",
+  	17 => "商況",
+  	18 => "環境",
+  	19 => "高校野球",
+  	20 => "号外",
+  	21 => "その他",
+  }
 
   def analize!
     sentences = self.sentences
