@@ -46,6 +46,7 @@ class Mst::AsahiApi < Mst::ApiConfig
       article.save!
       list = []
       article.body.split(/\s*(¥n|。)\s*/).each do |b|
+      	next if b.blank?
         list << article.sentences.new(body: b)
       end
       Sentence.import(list)
