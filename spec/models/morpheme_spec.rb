@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: dependencies
+# Table name: morphemes
 #
 #  id         :integer          not null, primary key
 #  word       :string(255)      not null
@@ -11,13 +11,12 @@
 #
 # Indexes
 #
-#  index_dependencies_on_pos   (pos)
-#  index_dependencies_on_word  (word)
+#  index_morphemes_on_pos   (pos)
+#  index_morphemes_on_word  (word)
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+require 'rails_helper'
 
-FactoryGirl.define do
-  factory :dependency do
-  end
+RSpec.describe Morpheme, :type => :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

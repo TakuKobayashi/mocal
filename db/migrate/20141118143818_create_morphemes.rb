@@ -1,12 +1,12 @@
-class CreateDependencies < ActiveRecord::Migration
+class CreateMorphemes < ActiveRecord::Migration
   def change
-    create_table :dependencies do |t|
+    create_table :morphemes do |t|
       t.string  :word,    null: false
       t.string  :pos,     null: false
       t.integer :counter, null: false, default: 0
       t.timestamps
     end
-    add_index :dependencies, :word
-    add_index :dependencies, :pos
+    add_index :morphemes, :word
+    add_index :morphemes, :pos
   end
 end

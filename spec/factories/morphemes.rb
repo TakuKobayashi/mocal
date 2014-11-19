@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: dependencies
+# Table name: morphemes
 #
 #  id         :integer          not null, primary key
 #  word       :string(255)      not null
@@ -11,13 +11,13 @@
 #
 # Indexes
 #
-#  index_dependencies_on_pos   (pos)
-#  index_dependencies_on_word  (word)
+#  index_morphemes_on_pos   (pos)
+#  index_morphemes_on_word  (word)
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
 FactoryGirl.define do
-  factory :dependency do
+  factory :morpheme do
+    
   end
+
 end

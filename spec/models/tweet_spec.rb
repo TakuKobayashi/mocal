@@ -18,6 +18,8 @@
 #  index_tweets_on_uid      (uid)
 #
 
-class Tweet < ActiveRecord::Base
-  has_many :sentences, as: :source
+require 'rails_helper'
+
+RSpec.describe Tweet, :type => :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

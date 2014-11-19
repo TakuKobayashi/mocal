@@ -6,6 +6,7 @@
 #  name          :string(255)      not null
 #  category_code :integer          not null
 #  stock_code    :integer          not null
+#  search_name   :string(255)      not null
 #  created_at    :datetime
 #  updated_at    :datetime
 #
@@ -14,6 +15,8 @@ class Mst::Company < ActiveRecord::Base
   has_many :articles, ->{order(post_at: :desc)}, foreign_key: :mst_company_id
   has_many :prices, -> {order(reported_at: :desc)}, foreign_key: :mst_company_id
   has_many :sentences, foreign_key: :mst_company_id
+  has_many :crawl_logs, as: :data
+  has_many :phrase_relations, as: :source
 
   # == Asahi Functions
 

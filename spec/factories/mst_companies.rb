@@ -6,6 +6,7 @@
 #  name          :string(255)      not null
 #  category_code :integer          not null
 #  stock_code    :integer          not null
+#  search_name   :string(255)      not null
 #  created_at    :datetime
 #  updated_at    :datetime
 #
