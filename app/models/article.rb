@@ -22,7 +22,7 @@
 #
 
 class Article < ActiveRecord::Base
-  has_many :sentences
+  has_many :sentences, as: :source
   belongs_to :mst_company, class_name: "Mst::Company", foreign_key: :mst_company_id
 
   CATEGORY = {
@@ -50,27 +50,44 @@ class Article < ActiveRecord::Base
   	21 => "その他",
   }
 
+  def split_sentences!
+    list = []
+    self.body.split(/\s*(\n|。|\t|　)\s*/).each do |b|
+      next if b.blank? || b.length <= 1
+      list << self.sentences.new(body: b, mst_company_id: self.mst_company_id)
+    end
+    Sentence.import(list)
+    self.reload
+  end
+
   def analize!
+    relation_list = []
+    word_score_list = []
     sentences = self.sentences
     results = Mst::XingApi.request_text_analize_api(sentences.pluck(:body).join("<!--p-->"))
     self.transaction do
       results.each_with_index do |data, index|
-        data.each do |key, value|
-          list = []
-          s = sentences[index]
-          if value.instance_of?(Array)
-            value.each do |v|
-              list << s.send(key.pluralize).new(v)
-            end
-            dlist, alist = list.partition{|klass| klass.instance_of?(Dependency) }
-            Dependency.import(dlist)
-            MorphologicalAnalysis.import(alist)
-            s.reload
-          else
-            s.update!(score: Sentence::SCORE_LIST[value.to_i])
+        sentence = sentences[index]
+        sentence.update!(score: data["score"].to_f)
+        data["dependencies"].each do |d|
+          dependency = Dependency.find_or_initialize_by(word: d["morphemes"].map{|m| m["word"]}.join(""))
+          dependency.counter += 1
+          dependency.save!
+          word_list = []
+          d["morphemes"].each do |hash|
+            morpheme = Morpheme.find_or_initialize_by(hash)
+            morpheme.counter += 1
+            morpheme.save!
+            word_list << morpheme.word if morpheme.pos == "名詞"
+            relation_list << PhraseRelation.new(source: sentence, morpheme: morpheme, dependency: dependency)
+          end
+          word_list.each do |w|
+            word_score_list << sentence.word_scores.new(dependency_id: dependency.id, word: w, score: d["score"])
           end
         end
       end
+      WordScore.import(word_score_list)
+      PhraseRelation.import(relation_list)
       sentences.reload
       self.score = sentences.sum(:score)
       self.save!

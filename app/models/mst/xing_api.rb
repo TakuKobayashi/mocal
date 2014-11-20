@@ -21,17 +21,18 @@ class Mst::XingApi < Mst::ApiConfig
     data = feature.request_api(:post,{acckey: api.api_key, sent: text})
     arrays = data["results"].map do |cell|
       hash = {}
-      hash["morphological_analysis"] = cell["morphemes"].map do |m|
-        nil if m["err"] == 0
-        {word: m["shuushi"], pos: m["hinshi"]}
+      morphemes = cell["morphemes"].group_by{|m| m["pid"] }
+      hash["dependencies"] = morphemes.map do |pid, values|
+        h = {}
+        h["morphemes"] = values.map do |m|
+          nil if m["err"] == 0
+          {"word" => m["gokan"], "pos" => m["hinshi"]}
+        end
+        p = cell["phrases"].detect{|p| p["pid"] == pid }
+        h["score"] = WordScore::SCORE_LIST[p["ppn"].to_i]
+        h
       end
-      hash["morphological_analysis"].compact!
-      hash["dependency"] = cell["phrases"].map do |p|
-        nil if p["err"] == 0
-        {score: Dependency::SCORE_LIST[p["ppn"].to_i], word: p["jshuushi"].to_s + p["fshuushi"].to_s, pos: p["jhinshi"].to_s}
-      end
-      hash["dependency"].compact!
-      hash["score"] = cell["spn"]
+      hash["score"] = Sentence::SCORE_LIST[cell["spn"].to_i]
       hash
     end
     arrays

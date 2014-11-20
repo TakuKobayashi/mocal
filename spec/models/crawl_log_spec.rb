@@ -7,7 +7,7 @@
 #  data_id    :integer          not null
 #  crawl_at   :datetime         not null
 #  page_num   :integer          default(0), not null
-#  full_flag  :boolean          default(FALSE), not null
+#  status     :integer          not null
 #  created_at :datetime
 #  updated_at :datetime
 #
