@@ -3,28 +3,26 @@
 #
 # Table name: articles
 #
-#  id             :integer          not null, primary key
-#  mst_company_id :integer          not null
-#  score          :float(24)        default(0.0), not null
-#  type           :string(255)      not null
-#  body           :text
-#  title          :string(255)
-#  post_at        :datetime
-#  category       :integer
-#  data_id        :string(255)      not null
-#  created_at     :datetime
-#  updated_at     :datetime
+#  id         :integer          not null, primary key
+#  score      :float(24)        default(0.0), not null
+#  type       :string(255)      not null
+#  body       :text
+#  title      :string(255)
+#  post_at    :datetime
+#  category   :integer
+#  data_id    :string(255)      not null
+#  created_at :datetime
+#  updated_at :datetime
 #
 # Indexes
 #
-#  index_articles_on_data_id         (data_id)
-#  index_articles_on_mst_company_id  (mst_company_id)
-#  index_articles_on_post_at         (post_at)
+#  index_articles_on_data_id  (data_id)
+#  index_articles_on_post_at  (post_at)
 #
 
 class Article < ActiveRecord::Base
   has_many :sentences, as: :source
-  belongs_to :mst_company, class_name: "Mst::Company", foreign_key: :mst_company_id
+  has_many :company_source_relation, as: :source
 
   CATEGORY = {
     "地方"=>0,
@@ -55,10 +53,19 @@ class Article < ActiveRecord::Base
     list = []
     self.body.split(/\s*(\n|。|\t|　)\s*/).each do |b|
       next if b.blank? || b.length <= 1
-      list << self.sentences.new(body: b, mst_company_id: self.mst_company_id)
+      list << self.sentences.new(body: b)
     end
     Sentence.import(list)
     self.reload
+  end
+
+  def make_company_relation!(mst_company_id)
+    list = []
+    list << CompanySourceRelation.new(source: self, mst_company_id: mst_company_id)
+    self.sentences.each do |sentence|
+      list << CompanySourceRelation.new(source: sentence, mst_company_id: mst_company_id)
+    end
+    CompanySourceRelation.import(list)
   end
 
   def analize!

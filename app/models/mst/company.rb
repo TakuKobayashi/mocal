@@ -13,9 +13,11 @@
 
 class Mst::Company < ActiveRecord::Base
 
-  has_many :articles, ->{order(post_at: :desc)}, foreign_key: :mst_company_id
   has_many :prices, -> {order(reported_at: :desc)}, foreign_key: :mst_company_id
-  has_many :sentences, foreign_key: :mst_company_id
+  has_many :company_source_relations, foreign_key: :mst_company_id
+  has_many :sentences, through: :company_source_relations, source: :source, source_type: 'Sentence'
+  has_many :articles, through: :company_source_relations, source: :source, source_type: 'Article'
+
   has_one  :crawl_log, as: :data
   has_many :phrase_relations, as: :source
 

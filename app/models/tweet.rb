@@ -2,14 +2,13 @@
 #
 # Table name: tweets
 #
-#  id             :integer          not null, primary key
-#  mst_company_id :integer          not null
-#  tweet          :string(255)      not null
-#  uid            :string(255)
-#  type           :string(255)      not null
-#  post_at        :datetime
-#  created_at     :datetime
-#  updated_at     :datetime
+#  id         :integer          not null, primary key
+#  tweet      :string(255)      not null
+#  uid        :string(255)
+#  type       :string(255)      not null
+#  post_at    :datetime
+#  created_at :datetime
+#  updated_at :datetime
 #
 # Indexes
 #
