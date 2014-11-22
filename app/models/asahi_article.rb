@@ -29,10 +29,11 @@ class AsahiArticle < Article
     data = Mst::AsahiApi.request_article(crawl_log.data.search_name, {rows: 10, start: start})
     AsahiArticle.transaction do
       data["articles"].each do |hash|
+        next if hash.compact.blank?
         article = AsahiArticle.find_or_initialize_by(data_id: hash["data_id"])
         if article.new_record?
+          article.attributes = hash.merge(type: "AsahiArticle")
           article.save!
-          article = AsahiArticle.create(hash.merge(type: "AsahiArticle"))
           article.split_sentences!
           if article.title.blank?
             article.update!(title: article.sentences.first.try(:body).to_s)

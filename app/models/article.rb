@@ -75,17 +75,17 @@ class Article < ActiveRecord::Base
     results = Mst::XingApi.request_text_analize_api(sentences.pluck(:body).join("<!--p-->"))
     self.transaction do
       results.each_with_index do |data, index|
+        dependency_ids = []
+        morpheme_ids = []
         sentence = sentences[index]
         sentence.update!(score: data["score"].to_f)
         data["dependencies"].each do |d|
-          dependency = Dependency.find_or_initialize_by(word: d["morphemes"].map{|m| m["word"]}.join(""))
-          dependency.counter += 1
-          dependency.save!
+          dependency = Dependency.find_or_create_by(word: d["morphemes"].map{|m| m["word"]}.join(""))
+          dependency_ids << dependency.id
           word_list = []
           d["morphemes"].each do |hash|
-            morpheme = Morpheme.find_or_initialize_by(hash)
-            morpheme.counter += 1
-            morpheme.save!
+            morpheme = Morpheme.find_or_create_by(hash)
+            morpheme_ids << morpheme.id
             word_list << morpheme.word if morpheme.pos == "名詞"
             relation_list << PhraseRelation.new(source: sentence, morpheme: morpheme, dependency: dependency)
           end
@@ -93,6 +93,8 @@ class Article < ActiveRecord::Base
             word_score_list << sentence.word_scores.new(dependency_id: dependency.id, word: w, score: d["score"])
           end
         end
+        Dependency.where(id: dependency_ids).update_all("counter = counter + 1")
+        Morpheme.where(id: morpheme_ids).update_all("counter = counter + 1")
       end
       WordScore.import(word_score_list)
       PhraseRelation.import(relation_list)

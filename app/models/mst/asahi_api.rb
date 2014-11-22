@@ -18,8 +18,7 @@ class Mst::AsahiApi < Mst::ApiConfig
   def self.request_article(word, option = {})
     api = Mst::AsahiApi.first
     feature = api.api_feature_configs.article.first
-    data = feature.request_api(:post, option.merge!(ackey: api.api_key, q: "Body:" + word.to_s))
-    puts data
+    data = feature.request_api(:post, option.merge!(ackey: api.api_key, q: "Body:" + word.to_s, wt: feature.request_format))
     return [] if data.blank? || data["response"].blank? || data["response"]["result"].blank? || data["response"]["result"]["doc"].blank?
     result = {}
     result["numFound"] = data["response"]["result"]["numFound"].to_i
