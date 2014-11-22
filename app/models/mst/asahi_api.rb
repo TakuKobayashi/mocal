@@ -19,8 +19,11 @@ class Mst::AsahiApi < Mst::ApiConfig
     api = Mst::AsahiApi.first
     feature = api.api_feature_configs.article.first
     data = feature.request_api(:post, option.merge!(ackey: api.api_key, q: "Body:" + word.to_s))
+    puts data
     return [] if data.blank? || data["response"].blank? || data["response"]["result"].blank? || data["response"]["result"]["doc"].blank?
-    array = data["response"]["result"]["doc"].map do |doc|
+    result = {}
+    result["numFound"] = data["response"]["result"]["numFound"].to_i
+    result["articles"] = data["response"]["result"]["doc"].map do |doc|
       hash = {}
       doc.each do |k, v|
         key = k.to_s.underscore
@@ -29,6 +32,8 @@ class Mst::AsahiApi < Mst::ApiConfig
             hash["post_at"] = v
           elsif key == "id"
             hash["data_id"] = v
+          elsif key == "category"
+            hash["category"] = Article::CATEGORY[v]
           else
             hash[key] = v
           end
@@ -36,6 +41,6 @@ class Mst::AsahiApi < Mst::ApiConfig
       end
       hash
     end
-    array
+    result
   end
 end

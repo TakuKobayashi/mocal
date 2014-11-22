@@ -5,20 +5,21 @@
 #
 #  id             :integer          not null, primary key
 #  mst_company_id :integer          not null
-#  type           :string(255)      not null
 #  score          :float(24)        default(0.0), not null
+#  type           :string(255)      not null
 #  body           :text
 #  title          :string(255)
 #  post_at        :datetime
 #  category       :integer
+#  data_id        :string(255)      not null
 #  created_at     :datetime
 #  updated_at     :datetime
 #
 # Indexes
 #
+#  index_articles_on_data_id         (data_id)
 #  index_articles_on_mst_company_id  (mst_company_id)
 #  index_articles_on_post_at         (post_at)
-#  index_articles_on_type            (type)
 #
 
 class Article < ActiveRecord::Base
@@ -26,28 +27,28 @@ class Article < ActiveRecord::Base
   belongs_to :mst_company, class_name: "Mst::Company", foreign_key: :mst_company_id
 
   CATEGORY = {
-  	0 => "地方",
-  	1 => "社会",
-  	2 => "科学医療",
-  	3 => "文化芸能",
-  	4 => "オピニオン",
-  	5 => "生活",
-  	6 => "スポーツ",
-  	7 => "テレビ",
-  	8 => "読書",
-  	9 => "教育",
-  	10 => "囲碁将棋",
-  	11 => "小説",
-  	12 => "サッカー",
-  	13 => "総合",
-  	14 => "外報",
-  	15 => "経済",
-  	16 => "政治",
-  	17 => "商況",
-  	18 => "環境",
-  	19 => "高校野球",
-  	20 => "号外",
-  	21 => "その他",
+    "地方"=>0,
+    "社会"=>1,
+    "科学医療"=>2,
+    "文化芸能"=>3,
+    "オピニオン"=>4,
+    "生活"=>5,
+    "スポーツ"=>6,
+    "テレビ"=>7,
+    "読書"=>8,
+    "教育"=>9,
+    "囲碁将棋"=>10,
+    "小説"=>11,
+    "サッカー"=>12,
+    "総合"=>13,
+    "外報"=>14,
+    "経済"=>15,
+    "政治"=>16,
+    "商況"=>17,
+    "環境"=>18,
+    "高校野球"=>19,
+    "号外"=>20,
+    "その他"=>21
   }
 
   def split_sentences!

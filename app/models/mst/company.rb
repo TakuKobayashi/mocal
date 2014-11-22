@@ -12,10 +12,11 @@
 #
 
 class Mst::Company < ActiveRecord::Base
+
   has_many :articles, ->{order(post_at: :desc)}, foreign_key: :mst_company_id
   has_many :prices, -> {order(reported_at: :desc)}, foreign_key: :mst_company_id
   has_many :sentences, foreign_key: :mst_company_id
-  has_many :crawl_logs, as: :data
+  has_one  :crawl_log, as: :data
   has_many :phrase_relations, as: :source
 
   # == Asahi Functions

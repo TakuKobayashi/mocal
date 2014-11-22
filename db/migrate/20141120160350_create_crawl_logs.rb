@@ -4,7 +4,8 @@ class CreateCrawlLogs < ActiveRecord::Migration
       t.string   :data_type, null: false
       t.integer  :data_id, null: false
       t.datetime :crawl_at, null: false
-      t.integer  :page_num, null: false, default: 0
+      t.integer  :current_crawl_number, null: false, default: 0
+      t.integer  :max_crawl_number
       t.integer  :status, null: false
       t.timestamps
     end

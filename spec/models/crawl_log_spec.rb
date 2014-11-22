@@ -2,14 +2,15 @@
 #
 # Table name: crawl_logs
 #
-#  id         :integer          not null, primary key
-#  data_type  :string(255)      not null
-#  data_id    :integer          not null
-#  crawl_at   :datetime         not null
-#  page_num   :integer          default(0), not null
-#  status     :integer          not null
-#  created_at :datetime
-#  updated_at :datetime
+#  id                   :integer          not null, primary key
+#  data_type            :string(255)      not null
+#  data_id              :integer          not null
+#  crawl_at             :datetime         not null
+#  current_crawl_number :integer          default(0), not null
+#  max_crawl_number     :integer
+#  status               :integer          not null
+#  created_at           :datetime
+#  updated_at           :datetime
 #
 # Indexes
 #
