@@ -18,3 +18,12 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+
+# 出力先のログファイルの指定
+set :output, 'log/crontab.log'
+# ジョブの実行環境の指定
+set :environment, :develop
+
+every 10.minutes do
+  runner "AsahiArticle.crawl"
+end

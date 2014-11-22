@@ -26,7 +26,7 @@ class AsahiArticle < Article
     return if crawl_log.crawling?
     crawl_log.crawling!
     start = crawl_log.current_crawl_number
-    data = Mst::AsahiApi.request_article(crawl_log.data.search_name, {rows: 10, start: start})
+    data = Mst::AsahiApi.request_article(crawl_log.data.search_name, {rows: 50, start: start})
     AsahiArticle.transaction do
       data["articles"].each do |hash|
         next if hash.compact.blank?
