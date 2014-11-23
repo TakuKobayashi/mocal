@@ -21,22 +21,24 @@ class Mst::XingApi < Mst::ApiConfig
     api = Mst::XingApi.first
     feature = api.api_feature_configs.morphological_analysis.first
     data = feature.request_api(:post,{acckey: api.api_key, sent: text})
+    return [] if data["apierr"].to_i != 0
     arrays = data["results"].map do |cell|
+      next if cell["err"].to_i != 0
       hash = {}
       morphemes = cell["morphemes"].group_by{|m| m["pid"] }
       hash["dependencies"] = morphemes.map do |pid, values|
         h = {}
         h["morphemes"] = values.map do |m|
-          nil if m["err"] == 0
+          next if m["err"].to_i != 0
           {"word" => m["gokan"], "pos" => m["hinshi"]}
         end
-        p = cell["phrases"].detect{|p| p["pid"] == pid }
-        h["score"] = WordScore::SCORE_LIST[p["ppn"].to_i]
+        phrase = cell["phrases"].detect{|phrase| phrase["pid"] == pid }
+        h["score"] = WordScore::SCORE_LIST[phrase["ppn"].to_i]
         h
       end
       hash["score"] = Sentence::SCORE_LIST[cell["spn"].to_i]
       hash
-    end
+    end.compact
     arrays
   end
 end

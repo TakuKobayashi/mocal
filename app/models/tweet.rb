@@ -19,4 +19,5 @@
 
 class Tweet < ActiveRecord::Base
   has_many :sentences, as: :source
+  has_many :company_source_relation, as: :source
 end
