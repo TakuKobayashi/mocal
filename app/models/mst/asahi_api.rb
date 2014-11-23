@@ -19,7 +19,7 @@ class Mst::AsahiApi < Mst::ApiConfig
     api = Mst::AsahiApi.first
     feature = api.api_feature_configs.article.first
     data = feature.request_api(:post, option.merge!(ackey: api.api_key, q: "Body:" + word.to_s, wt: feature.request_format))
-    return [] if data.blank? || data["response"].blank? || data["response"]["result"].blank? || data["response"]["result"]["doc"].blank?
+    return {"articles" => []} if data.blank? || data["response"].blank? || data["response"]["result"].blank? || data["response"]["result"]["doc"].blank?
     result = {}
     result["numFound"] = data["response"]["result"]["numFound"].to_i
     result["articles"] = data["response"]["result"]["doc"].map do |doc|

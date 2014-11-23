@@ -15,6 +15,8 @@
 #
 
 class Mst::XingApi < Mst::ApiConfig
+  LIMIT_SENDABLE_SENTENCES = 50
+
   def self.request_text_analize_api(text)
     api = Mst::XingApi.first
     feature = api.api_feature_configs.morphological_analysis.first

@@ -72,35 +72,38 @@ class Article < ActiveRecord::Base
     relation_list = []
     word_score_list = []
     sentences = self.sentences
-    results = Mst::XingApi.request_text_analize_api(sentences.pluck(:body).join("<!--p-->"))
-    self.transaction do
-      results.each_with_index do |data, index|
-        dependency_ids = []
-        morpheme_ids = []
-        sentence = sentences[index]
-        sentence.update!(score: data["score"].to_f)
-        data["dependencies"].each do |d|
-          dependency = Dependency.find_or_create_by(word: d["morphemes"].map{|m| m["word"]}.join(""))
-          dependency_ids << dependency.id
-          word_list = []
-          d["morphemes"].each do |hash|
-            morpheme = Morpheme.find_or_create_by(hash)
-            morpheme_ids << morpheme.id
-            word_list << morpheme.word if morpheme.pos == "名詞"
-            relation_list << PhraseRelation.new(source: sentence, morpheme: morpheme, dependency: dependency)
+    
+    sentences.find_in_batches(batch_size: Mst::XingApi::LIMIT_SENDABLE_SENTENCES) do |sentences_list|
+      results = Mst::XingApi.request_text_analize_api(sentences_list.map(&:body).join("<!--p-->"))
+      self.transaction do
+        results.each_with_index do |data, index|
+          dependency_ids = []
+          morpheme_ids = []
+          sentence = sentences[index]
+          sentence.update!(score: data["score"].to_f)
+          data["dependencies"].each do |d|
+            dependency = Dependency.find_or_create_by(word: d["morphemes"].map{|m| m["word"]}.join(""))
+            dependency_ids << dependency.id
+            word_list = []
+            d["morphemes"].each do |hash|
+              morpheme = Morpheme.find_or_create_by(hash)
+              morpheme_ids << morpheme.id
+              word_list << morpheme.word if morpheme.pos == "名詞"
+              relation_list << PhraseRelation.new(source: sentence, morpheme: morpheme, dependency: dependency)
+            end
+            word_list.each do |w|
+              word_score_list << sentence.word_scores.new(dependency_id: dependency.id, word: w, score: d["score"])
+            end
           end
-          word_list.each do |w|
-            word_score_list << sentence.word_scores.new(dependency_id: dependency.id, word: w, score: d["score"])
-          end
+          Dependency.where(id: dependency_ids).update_all("counter = counter + 1")
+          Morpheme.where(id: morpheme_ids).update_all("counter = counter + 1")
         end
-        Dependency.where(id: dependency_ids).update_all("counter = counter + 1")
-        Morpheme.where(id: morpheme_ids).update_all("counter = counter + 1")
+        WordScore.import(word_score_list)
+        PhraseRelation.import(relation_list)
+        sentences.reload
+        self.score = sentences.sum(:score)
+        self.save!
       end
-      WordScore.import(word_score_list)
-      PhraseRelation.import(relation_list)
-      sentences.reload
-      self.score = sentences.sum(:score)
-      self.save!
     end
   end
 end
