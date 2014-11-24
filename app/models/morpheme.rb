@@ -35,8 +35,8 @@ class Morpheme < ActiveRecord::Base
 
   def self.search_nearest_company(word)
     morphemes = Morpheme.search_word(word).includes(:mst_companies)
-    mst_companies = morphemes.map{|morpheme| morpheme.mst_companies }.uniq
-    mst_company = mst_companies.select{|mst_company| mst_company.include?(word) }.min_by{|mst_company| (mst_company.name.size - word.size).abs }
+    mst_companies = morphemes.map{|morpheme| morpheme.mst_companies }.flatten.uniq
+    mst_company = mst_companies.select{|mst_company| mst_company.name.include?(word) }.min_by{|mst_company| (mst_company.name.size - word.size).abs }
     return mst_company
   end
 end

@@ -22,6 +22,8 @@ class Mst::Company < ActiveRecord::Base
 
   has_one  :crawl_log, as: :data
   has_many :phrase_relations, as: :source
+  has_many :dependencies, through: :phrase_relations, source: :dependency
+  has_many :morphemes, through: :phrase_relations, source: :morpheme
 
   # == Asahi Functions
 
@@ -31,13 +33,13 @@ class Mst::Company < ActiveRecord::Base
   end
 
   def positive_words
-    sentence_ids = sentences.pluck(:id)
+    sentence_ids = self.sentences.pluck(:id)
     word_scores = WordScore.where(sentence_id: sentence_ids).group(:word).order("sum_score DESC").limit(5).sum(:score)
     return word_scores.keys
   end
 
   def negative_words
-    sentence_ids = sentences.pluck(:id)
+    sentence_ids = self.sentences.pluck(:id)
     word_scores = WordScore.where(sentence_id: sentence_ids).group(:word).order("sum_score ASC").limit(5).sum(:score)
     return word_scores.keys
   end
@@ -47,7 +49,7 @@ class Mst::Company < ActiveRecord::Base
     if articles.blank?
       return [0,0,0]
     else
-      sentences = Sentence.where(source_type: "Article", source_id: articles.msp(&:id))
+      sentences = Sentence.where(source_type: "Article", source_id: articles.map(&:id))
       pos_sums = sentences.where("score > 0").group([:source_type, :source_id]).sum(:score)
       neg_sums = sentences.where("score < 0").group([:source_type, :source_id]).sum(:score)
       emotion_graphs = articles.map do |article|
