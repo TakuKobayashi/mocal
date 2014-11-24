@@ -18,7 +18,9 @@
 #  index_tweets_on_uid      (uid)
 #
 
-class Tweet < ActiveRecord::Base
-  has_many :sentences, as: :source
-  has_many :company_source_relation, as: :source
+FactoryGirl.define do
+  factory :tweet do
+    
+  end
+
 end

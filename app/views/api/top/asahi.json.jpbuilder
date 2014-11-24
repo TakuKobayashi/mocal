@@ -1,13 +1,13 @@
 json.positiveArticle do
-  json.(@company.positiveArticle, :title, :body)
+  json.(@positive_article, :title, :body)
 end
 
 json.negativeArticle do
-  json.(@company.negativeArticle, :title, :body)
+  json.(@negative_article, :title, :body)
 end
 
-json.positiveWord @company.positiveWord
+json.positiveWord @company.positive_words
 
-json.negativeWord @company.negativeWord
+json.negativeWord @company.negative_words
 
-json.emotionGraph @company.emotionGraph
+json.emotionGraph @company.emotion_graphs

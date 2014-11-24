@@ -1,5 +1,5 @@
-json.positiveComment @company.positiveComment
+json.positiveComment @positive_comment
 
-json.negativeComment @company.negativeComment
+json.negativeComment @negative_comment
 
-json.socialTrend @company.socialTrend
+json.socialTrend @company.social_trend

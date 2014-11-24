@@ -1,13 +1,10 @@
 class CreateDependencies < ActiveRecord::Migration
   def change
     create_table :dependencies do |t|
-      t.integer :sentence_id,   null: false
-      t.string  :word
-      t.float   :score,         null: false, default: 0
-      t.string  :pos,           null: false
+      t.string  :word,    null: false
+      t.integer :counter, null: false, default: 0
       t.timestamps
     end
-    add_index :dependencies, :sentence_id
-    add_index :dependencies, :pos
+    add_index :dependencies, :word
   end
 end

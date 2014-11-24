@@ -1,3 +1,3 @@
 json.(@company, :name, :stock_code)
-json.price @company.prices[0].price
-json.vector @company.vector
+json.price @price.try(:price).to_i
+json.vector @vector.to_i

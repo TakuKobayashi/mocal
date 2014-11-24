@@ -3,18 +3,17 @@
 #
 # Table name: sentences
 #
-#  id             :integer          not null, primary key
-#  article_id     :integer          not null
-#  mst_company_id :integer
-#  body           :text
-#  score          :float(24)        default(0.0), not null
-#  created_at     :datetime
-#  updated_at     :datetime
+#  id          :integer          not null, primary key
+#  source_type :string(255)      not null
+#  source_id   :integer          not null
+#  body        :text
+#  score       :float(24)        default(0.0), not null
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 # Indexes
 #
-#  index_sentences_on_article_id      (article_id)
-#  index_sentences_on_mst_company_id  (mst_company_id)
+#  index_sentences_on_source_type_and_source_id  (source_type,source_id)
 #
 
 class Sentence < ActiveRecord::Base
@@ -32,6 +31,9 @@ class Sentence < ActiveRecord::Base
     4 => -1
   }
   belongs_to :mst_company, class_name: "Mst::Company", foreign_key: :mst_company_id
-  has_many :dependencies
-  has_many :morphological_analyses
+  belongs_to :source, :polymorphic => true
+  has_many :dependencies, through: :phrase_relations, source: :dependency
+  has_many :morphemes, through: :phrase_relations, source: :morpheme
+  has_many :phrase_relations, as: :source
+  has_many :word_scores
 end

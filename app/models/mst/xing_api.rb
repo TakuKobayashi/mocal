@@ -15,25 +15,30 @@
 #
 
 class Mst::XingApi < Mst::ApiConfig
+  LIMIT_SENDABLE_SENTENCES = 50
+
   def self.request_text_analize_api(text)
     api = Mst::XingApi.first
     feature = api.api_feature_configs.morphological_analysis.first
     data = feature.request_api(:post,{acckey: api.api_key, sent: text})
+    return [] if data["apierr"].to_i != 0
     arrays = data["results"].map do |cell|
+      next if cell["err"].to_i != 0
       hash = {}
-      hash["morphological_analysis"] = cell["morphemes"].map do |m|
-        nil if m["err"] == 0
-        {word: m["shuushi"], pos: m["hinshi"]}
+      morphemes = cell["morphemes"].group_by{|m| m["pid"] }
+      hash["dependencies"] = morphemes.map do |pid, values|
+        h = {}
+        h["morphemes"] = values.map do |m|
+          next if m["err"].to_i != 0
+          {"word" => m["gokan"], "pos" => m["hinshi"]}
+        end
+        phrase = cell["phrases"].detect{|phrase| phrase["pid"] == pid }
+        h["score"] = WordScore::SCORE_LIST[phrase["ppn"].to_i]
+        h
       end
-      hash["morphological_analysis"].compact!
-      hash["dependency"] = cell["phrases"].map do |p|
-        nil if p["err"] == 0
-        {score: Dependency::SCORE_LIST[p["ppn"].to_i], word: p["jshuushi"].to_s + p["fshuushi"].to_s, pos: p["jhinshi"].to_s}
-      end
-      hash["dependency"].compact!
-      hash["score"] = cell["spn"]
+      hash["score"] = Sentence::SCORE_LIST[cell["spn"].to_i]
       hash
-    end
+    end.compact
     arrays
   end
 end

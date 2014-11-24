@@ -3,26 +3,18 @@
 #
 # Table name: dependencies
 #
-#  id          :integer          not null, primary key
-#  sentence_id :integer          not null
-#  word        :string(255)
-#  score       :float(24)        default(0.0), not null
-#  pos         :string(255)      not null
-#  created_at  :datetime
-#  updated_at  :datetime
+#  id         :integer          not null, primary key
+#  word       :string(255)      not null
+#  counter    :integer          default(0), not null
+#  created_at :datetime
+#  updated_at :datetime
 #
 # Indexes
 #
-#  index_dependencies_on_pos          (pos)
-#  index_dependencies_on_sentence_id  (sentence_id)
+#  index_dependencies_on_word  (word)
 #
 
 class Dependency < ActiveRecord::Base
-  #  0:評価なし 1:ポジティブ 2:ネガティブ
-  SCORE_LIST = {
-    0 => 0,
-    1 => 1,
-    2 => -1
-  }
-  belongs_to :sentence
+  has_many :phrase_relations
+  has_many :morphemes, through: :phrase_relations, source: :morpheme
 end
