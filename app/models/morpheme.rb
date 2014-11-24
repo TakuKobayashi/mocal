@@ -24,6 +24,7 @@ class Morpheme < ActiveRecord::Base
      search_words = (2..word.size).to_a.map do |i|
        Morpheme.ngram(word, i)
      end.flatten
+     search_words = [word] if search_words.blank?
      where(word: search_words)
   }
 

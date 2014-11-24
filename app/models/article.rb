@@ -68,6 +68,15 @@ class Article < ActiveRecord::Base
     CompanySourceRelation.import(list)
   end
 
+  def self.analize!
+    a = PhraseRelation.where(source_type: "Sentence").last.source.source
+    Article.where("id > ?", a.id).find_each do |article|
+      article.transaction do
+        article.analize!
+      end
+    end
+  end
+
   def analize!
     relation_list = []
     word_score_list = []
