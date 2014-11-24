@@ -5,7 +5,7 @@
 #  id         :integer          not null, primary key
 #  score      :float(24)        default(0.0), not null
 #  type       :string(255)      not null
-#  body       :text
+#  body       :text(16777215)
 #  title      :string(255)
 #  post_at    :datetime
 #  category   :integer

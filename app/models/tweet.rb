@@ -9,6 +9,7 @@
 #  post_at    :datetime
 #  created_at :datetime
 #  updated_at :datetime
+#  score      :float(24)        default(0.0), not null
 #
 # Indexes
 #
