@@ -65,6 +65,8 @@ gem 'roo'
 
 gem "paranoia", "~> 2.0"
 
+gem 'whenever', :require => false
+
 group :test do
   gem 'spork'
   gem 'guard-spork'
