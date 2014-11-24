@@ -12,8 +12,9 @@
 #
 # Indexes
 #
-#  dependencies_index  (dependency_id,source_type,source_id)
-#  morphemes_index     (morpheme_id,source_type,source_id)
+#  dependencies_index                                   (dependency_id,source_type,source_id)
+#  index_phrase_relations_on_source_type_and_source_id  (source_type,source_id)
+#  morphemes_index                                      (morpheme_id,source_type,source_id)
 #
 
 FactoryGirl.define do
