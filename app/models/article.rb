@@ -68,13 +68,36 @@ class Article < ActiveRecord::Base
     CompanySourceRelation.import(list)
   end
 
-  def self.analize!
+  def self.bulk_analize!
     a = PhraseRelation.where(source_type: "Sentence").last.source.source
-    Article.where("id > ?", a.id).find_each do |article|
+    crawl_log = CrawlLog.find_or_initialize_by(data: a)
+    if crawl_log.new_record?
+      crawl_log.crawl_at = Time.current
+      crawl_log.status = :stanby
+      crawl_log.save!
+    end
+    return if crawl_log.crawling?
+    crawl_log.crawling!
+    articles = Article.where("id > ?", a.id).limit(100)
+    return if articles.blank?
+    articles.each do |article|
       article.transaction do
         article.analize!
       end
     end
+    crawl_log.data_id = articles.last.id
+    if articles.last.id >= crawl_log.max_crawl_number.to_i
+      crawl_log.status = :complete
+    else
+      crawl_log.current_crawl_number = articles.last.id
+      crawl_log.status = :remain
+    end
+    crawl_log.crawl_at = Time.current
+    crawl_log.save!
+
+    rescue => e
+    crawl_log.stanby!
+    puts e.message
   end
 
   def analize!

@@ -26,7 +26,7 @@ set :output, {:error => 'log/error.log', :standard => 'log/cron.log'}
 set :environment, :development
 
 every 1.minutes do
-  runner "AsahiArticle.crawl"
+  runner "Article.bulk_analize!"
 end
 
 =begin
