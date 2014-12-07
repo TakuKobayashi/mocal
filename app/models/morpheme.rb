@@ -22,17 +22,11 @@ class Morpheme < ActiveRecord::Base
 
   scope :search_word, ->(word){
      search_words = (2..word.size).to_a.map do |i|
-       Morpheme.ngram(word, i)
+       Ngram.split_word(word, i)
      end.flatten
      search_words = [word] if search_words.blank?
      where(word: search_words)
   }
-
-  def self.ngram(word, n)
-    characters = word.split(//u)
-    return [word] if characters.size <= n
-    return characters.each_cons(n).map(&:join)
-  end
 
   def self.search_nearest_company(word)
     morphemes = Morpheme.search_word(word).includes(:mst_companies)

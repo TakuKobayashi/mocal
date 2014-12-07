@@ -15,7 +15,7 @@ class Mst::Company < ActiveRecord::Base
 
   has_many :prices, foreign_key: :mst_company_id
   has_many :company_source_relations, foreign_key: :mst_company_id
-  has_many :sentences, through: :company_source_relations, source: :source, source_type: 'Sentence'
+  has_many :sentences, through: :articles, source: :sentences
   has_many :articles, through: :company_source_relations, source: :source, source_type: 'Article'
   has_many :asahi_articles, through: :company_source_relations, source: :source, source_type: 'Article', class_name: 'AsahiArticle'
   has_many :tweets, through: :company_source_relations, source: :source, source_type: 'Tweet'

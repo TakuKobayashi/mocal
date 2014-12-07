@@ -38,7 +38,8 @@ class AsahiArticle < Article
           if article.title.blank?
             article.update!(title: article.sentences.first.try(:body).to_s)
           end
-          article.analize!
+          article.split_ngrams!
+          #article.analize!
         end
         article.make_company_relation!(crawl_log.data_id)
       end
