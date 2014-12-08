@@ -23,10 +23,14 @@
 # 出力先のログファイルの指定
 set :output, {:error => 'log/error.log', :standard => 'log/cron.log'}
 # ジョブの実行環境の指定
-set :environment, :development
+set :environment, :production
 
 every 1.minutes do
   runner "Article.bulk_analize!"
+end
+
+every 1.minutes do
+  runner "AsahiArticle.crawl"
 end
 
 =begin
