@@ -71,18 +71,19 @@ class Article < ActiveRecord::Base
 
   def self.bulk_analize!
     a = PhraseRelation.where(source_type: "Sentence").last.source.source
-    crawl_log = CrawlLog.find_or_initialize_by(data: a)
+    crawl_log = CrawlLog.find_or_initialize_by(data_type: a.class.base_class.to_s)
     if crawl_log.new_record?
+      crawl_log.data_id = a.id
       crawl_log.crawl_at = Time.current
       crawl_log.status = :stanby
       crawl_log.save!
     end
-    return if crawl_log.crawling?
+    return nil if crawl_log.crawling?
     crawl_log.crawling!
     articles = Article.where("id > ?", a.id).limit(100)
-    return if articles.blank?
+    return nil if articles.blank?
     articles.each do |article|
-      article.transaction do
+      Article.transaction do
         article.analize!
         crawl_log.update!(data_id: article.id, current_crawl_number: article.id, crawl_at: Time.current, max_crawl_number: Article.last.id)
       end
@@ -93,10 +94,6 @@ class Article < ActiveRecord::Base
       crawl_log.status = :remain
     end
     crawl_log.save!
-
-    rescue => e
-    crawl_log.stanby!
-    puts e.message
   end
 
   def analize!

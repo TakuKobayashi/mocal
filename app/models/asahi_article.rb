@@ -23,7 +23,7 @@ class AsahiArticle < Article
   def self.crawl
     crawl_log = CrawlLog.search_target(Mst::Company)
     #クローリング中ならこの後の処理はやらない
-    return if crawl_log.crawling?
+    return nil if crawl_log.crawling?
     crawl_log.crawling!
     start = crawl_log.current_crawl_number
     data = Mst::AsahiApi.request_article(crawl_log.data.search_name, {rows: 50, start: start})
