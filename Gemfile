@@ -67,6 +67,9 @@ gem "paranoia", "~> 2.0"
 
 gem 'whenever', :require => false
 
+#jsにサーバーのパラメータを渡すことが出来るやつ
+gem 'gon'
+
 group :test do
   gem 'spork'
   gem 'guard-spork'

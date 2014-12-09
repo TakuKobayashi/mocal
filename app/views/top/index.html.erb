@@ -1,1 +1,170 @@
-<div style="text-align: center;">アイディアワキデールへようこそ</div>
+<section id="search-area">
+  <%= image_tag(asset_path("doodle.svg"), class: "mainvis") %>
+  <div class="inside">
+    <form action="" id="search-form">
+      <div class="inputbox">
+        <input id="search-input" name="search" type="text" autocomplete="off" value="" spellcheck="false">
+        <div class="guide"></div>
+      </div>
+      <input type="submit" id="search-submit">
+    </form>
+  </div>
+</section>
+
+<section id="result">
+  <ul id="overview">
+    <li>
+      <div class="card overview"></div>
+    </li>
+  </ul>
+  <ul id="seimei">
+    <li>
+      <div class="card overview">
+      	<h2>社名判断</h2>
+      </div>
+    </li>
+  </ul>
+  <ul id="asahi">
+    <li>
+      <div class="card positive-article"><h2>ポジティブな記事</h2></div>
+    </li>
+
+    <li>
+      <div class="card negative-article"><h2>ネガティブな記事</h2></div>
+    </li>
+
+    <li>
+      <div class="card positive-word">
+        <h2>ポジティブワード</h2>
+      </div>
+      <script type="text/template" class="json">
+        "positiveWord":["ワード1","ワード2","ワード3","ワード4","ワード5"]
+        //ソート順は、キーワードの最もポジティブな順で
+      </script>
+    </li>
+
+    <li>
+      <div class="card negative-word">
+        <h2>ネガティブワード</h2>
+      </div>
+      <script type="text/template" class="json">
+        "negativeWord":["ワード1","ワード2","ワード3","ワード4","ワード5"]
+        //ソート順は、キーワードの最もネガティブな順で
+      </script>
+    </li>
+	<li>
+      <div class="card emotion-graph">
+        <h2>感情グラフ</h2>
+        <div style="overflow:hidden;">
+          <div id="chart_div" style="width: auto; height: 300px;margin:0 -70px 0 -40px;"></div>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <ul id="social">
+  <!-- <li>
+    <div class="card positive-comment">
+      <h2>ポジティブなコメント</h2>
+        <script type="text/template" class="json">
+        "positiveComment":{
+        "body":"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate assumenda dicta placeat corrupti vero dolorum, non saepe eum tenetur facilis asperiores, enim incidunt aut autem officiis laborum fuga, maxime nihil!",
+        "score":0
+      }
+        </script>
+      </div>
+    </li>
+    <li>
+      <div class="card negative-comment">
+        <h2>ネガティブなコメント</h2>
+        <script type="text/template" class="json">
+          "negativeComment":{
+          "body":"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate assumenda dicta placeat corrupti vero dolorum, non saepe eum tenetur facilis asperiores, enim incidunt aut autem officiis laborum fuga, maxime nihil!",
+          "score":0
+         }
+        </script>
+      </div>
+    </li>
+
+    <li>
+      <div class="card social-trend">
+        <div></div>
+        <div></div>
+      </div>
+      <script type="text/template" class="json">
+        "socialTrend":{
+          "positive":0000,
+          "negative":0000
+        }
+      </script>
+    </li> -->
+  </ul>
+</section>
+
+<section id="judgements" style="display:none;">
+  <ul id="puppets">
+    <li class="kobayashi">
+      <div class="inside">
+        <div class="puppet upper"></div>
+        <div class="puppet lower"></div>
+        <div class="graph"><img src="#" alt="">
+        <canvas class="chart" height="120" width="120"></canvas></div>
+      </div>
+      <div class="baloon">
+        う〜ん
+      </div>
+      <div class="resultCard">
+        結果表示
+      </div>
+    </li>
+
+    <li class="kobayashi">
+      <div class="inside">
+        <div class="puppet upper"></div>
+        <div class="puppet lower"></div>
+        <div class="graph"><img src="#" alt="">
+        <canvas class="chart" height="120" width="120"></canvas></div>
+      </div>
+      <div class="baloon">
+        いけてる！
+      </div>
+      <div class="resultCard">
+        結果表示
+      </div>
+    </li>
+
+    <li class="kobayashi">
+      <div class="inside">
+        <div class="puppet upper"></div>
+        <div class="puppet lower"></div>
+        <div class="graph"><img src="#" alt="">
+        <canvas class="chart" height="120" width="120"></canvas></div>
+     </div>
+     <div class="baloon">
+       分からん。
+     </div>
+     <div class="resultCard">
+       結果表示
+     </div>
+   </li>
+  </ul>
+</section>
+<%= javascript_include_tag "https://www.google.com/jsapi" %>
+  <script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    var tmp = [['Year', 'ポジティブ', 'ネガティブ'],["20131004",2,0],["20131011",0,0],["20131013",4,0],["20131027",16,-15],["20131110",2,-4],["20131127",2,0],["20131215",4,-4],["20131219",8,0],["20131220",0,-2],["20131225",4,-6],["20131231",7,0],["20140108",2,0],["20140213",0,0],["20140412",0,-2],["20140501",4,-2],["20140504",2,0],["20140516",0,0],["20140517",5,-6],["20140522",0,0],["20140613",0,0]]
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable(tmp);
+
+      var options = {
+        curveType: 'function',
+        legend:{"position":"bottom"},
+        vAxis:{format:''}
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+      google.setOnLoadCallback(drawChart);
+      setTimeout(function(){$("#defs").next().remove()},500)
+  </script>
+<%= javascript_include_tag asset_path("main") %>

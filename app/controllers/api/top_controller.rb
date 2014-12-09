@@ -7,7 +7,7 @@ class Api::TopController < Api::BaseController
     @negative_article = @company.articles.order("score ASC, post_at DESC").first
   end
 
-  def companyDetail
+  def company_detail
     @price = @company.prices.order("reported_at DESC").first
     @vector = @company.vector
   end
