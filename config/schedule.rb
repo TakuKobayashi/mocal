@@ -29,11 +29,11 @@ every 1.minutes do
   runner "Article.bulk_analize!"
 end
 
+=begin
 every 1.minutes do
   runner "AsahiArticle.crawl"
 end
 
-=begin
 every 1.minutes do
   command "cd /Users/taku/workspace/workspace_ruby/mocal && mysqldump -u root -t mocals_development mst_companies articles company_source_relations crawl_logs sentences > dump.sql && git add dump.sql && git commit -m 'auto sql commit'"
 end
