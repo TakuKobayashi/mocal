@@ -78,8 +78,9 @@ class Article < ActiveRecord::Base
       crawl_log.status = :stanby
       crawl_log.save!
     end
-    return nil if crawl_log.crawling?
+    return nil if crawl_log.crawling? && crawl_log.updated_at > 5.minutes.ago
     crawl_log.crawling!
+    crawl_log.touch
     articles = Article.where("id > ?", a.id).limit(100)
     return nil if articles.blank?
     articles.each do |article|
