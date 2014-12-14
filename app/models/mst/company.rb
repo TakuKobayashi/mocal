@@ -24,6 +24,8 @@ class Mst::Company < ActiveRecord::Base
   has_many :phrase_relations, as: :source
   has_many :dependencies, through: :phrase_relations, source: :dependency
   has_many :morphemes, through: :phrase_relations, source: :morpheme
+  has_many :ngram_relations, as: :source
+  has_many :ngrams, through: :ngram_relations, source: :ngram
 
   # == Asahi Functions
 

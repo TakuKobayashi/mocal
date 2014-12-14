@@ -19,6 +19,6 @@ class Api::TopController < Api::BaseController
 
   private
   def load_mst_company
-    @company = Morpheme.search_nearest_company(URI.decode(params[:q].to_s))
+    @company = Ngram.search_nearest_company(URI.decode(params[:q].to_s))
   end
 end
