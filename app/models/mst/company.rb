@@ -73,7 +73,7 @@ class Mst::Company < ActiveRecord::Base
   private
   def linner_least_squares(prices)
     a = b = c = d = 0.0
-    prices.each do |price|
+    prices.each_with_index do |price, x|
       y = price.price
       a += x*y
       b += x

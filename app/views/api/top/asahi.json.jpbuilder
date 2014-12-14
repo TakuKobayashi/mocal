@@ -1,9 +1,9 @@
 json.positiveArticle do
-  json.(@positive_article, :title, :body)
+  json.(@positive_article, :title, :body) if @positive_article.present?
 end
 
 json.negativeArticle do
-  json.(@negative_article, :title, :body)
+  json.(@negative_article, :title, :body) if @negative_article.present?
 end
 
 json.positiveWord @company.positive_words
