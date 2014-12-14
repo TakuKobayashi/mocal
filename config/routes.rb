@@ -57,9 +57,12 @@ Rails.application.routes.draw do
   #   end
   namespace :api, format: false, defaults: { format: :json } do
     resource :top, only: [] do
-      get :asahi
-      get :company_detail
-      get :social
+      #get :asahi
+      #get :company_detail
+      #get :social
+      get 'asahi', to: "top#asahi"
+      get 'company_detail', to: "top#company_detail"
+      get 'social', to: "top#social"
     end
   end
 

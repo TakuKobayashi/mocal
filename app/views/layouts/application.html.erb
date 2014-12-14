@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <%= csrf_meta_tags %>
     <%= include_gon %>
-    <%= javascript_include_tag(asset_path("jquery.min")) %>
-    <%= javascript_include_tag(asset_path("jquery-ui.min")) %>
-    <%= javascript_include_tag(asset_path("citruslib")) %>
-    <%= javascript_include_tag(asset_path("Chart")) %>
+    <%= javascript_include_tag("jquery.min") %>
+    <%= javascript_include_tag("jquery-ui.min") %>
+    <%= javascript_include_tag("citruslib") %>
+    <%= javascript_include_tag("Chart") %>
     <%= stylesheet_link_tag "main" %>
     <title><%= content_for?(:title) ? yield(:title) : "mocal" %></title>
   </head>

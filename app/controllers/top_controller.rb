@@ -6,6 +6,6 @@ class TopController < BaseController
     end
     gon.social_path = social_api_top_path
     gon.asahi_path = asahi_api_top_path
-    gon.company_detail = company_detail_api_top_path
+    gon.company_detail_path = company_detail_api_top_path
   end
 end
