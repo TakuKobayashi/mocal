@@ -51,4 +51,20 @@ namespace :batches do
   task :compact_companysource_relation => :environment do
     CompanySourceRelation.where(source_type: "Sentence").delete_all
   end
+
+  task :crawl_enviroment_data => :environment do
+    limit_number = 100
+    before_count = Mst::EnvironmentSensor.count
+    crawl_log = CrawlLog.search_target(Mst::EnvironmentSensor)
+    crawl_log.stanby!
+    start = crawl_log.current_crawl_number
+    Mst::DocomoApi.import_senser_location({limit: [limit_number, start].join(",")})
+    start = Mst::EnvironmentSensor.count
+    crawl_log.crawl_at = Time.current
+    crawl_log.save!
+
+    Mst::EnvironmentSensor.find_each do |sensor|
+      Mst::DocomoApi.import_environment_data(sensor)
+    end
+  end
 end
