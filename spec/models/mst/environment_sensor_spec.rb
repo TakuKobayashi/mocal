@@ -18,9 +18,8 @@
 #  index_mst_environment_sensors_on_sensor_id    (sensor_id)
 #
 
-FactoryGirl.define do
-  factory :mst_environment_sensor, :class => 'Mst::EnvironmentSensor' do
-    
-  end
+require 'rails_helper'
 
+RSpec.describe Mst::EnvironmentSensor, :type => :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

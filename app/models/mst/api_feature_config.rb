@@ -30,7 +30,9 @@ class Mst::ApiFeatureConfig < ActiveRecord::Base
   enum category: [
     :morphological_analysis,
     :article,
-    :torendo
+    :torendo,
+    :environment_sensor,
+    :environment_data
   ]
 
   def parse_to_hash(result)

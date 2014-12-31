@@ -64,6 +64,10 @@ Rails.application.routes.draw do
       get 'company_detail', to: "top#company_detail"
       get 'social', to: "top#social"
     end
+
+    resource :environment, controller: :environment do
+      get :ulterviolet
+    end
   end
 
   root to: "top#index"
