@@ -68,6 +68,11 @@ Rails.application.routes.draw do
     resource :environment, controller: :environment do
       get :ulterviolet
     end
+    resources :music_scores
+  end
+
+  resource :top, controller: :top, only: [:index] do
+    get 'debug'
   end
 
   root to: "top#index"

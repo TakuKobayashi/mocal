@@ -32,7 +32,8 @@ class Mst::ApiFeatureConfig < ActiveRecord::Base
     :article,
     :torendo,
     :environment_sensor,
-    :environment_data
+    :environment_data,
+    :timeline
   ]
 
   def parse_to_hash(result)

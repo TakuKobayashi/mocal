@@ -8,4 +8,7 @@ class TopController < BaseController
     gon.asahi_path = asahi_api_top_path
     gon.company_detail_path = company_detail_api_top_path
   end
+
+  def debug
+  end
 end

@@ -1,0 +1,8 @@
+<%= form_tag(api_music_scores_url, {:multipart => true}) do %>
+  <div class="field">
+    <%= file_field_tag :upload_file %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Upload" %>
+  </div>
+<% end %>
