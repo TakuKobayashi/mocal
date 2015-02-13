@@ -51,6 +51,10 @@ gem 'jpmobile'
 
 gem 'omniauth'
 gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
+
+gem "koala", "~> 1.11.0rc"
 
 #認証後twitterにtweetするためのもの
 gem 'twitter'
@@ -69,6 +73,10 @@ gem 'whenever', :require => false
 
 #jsにサーバーのパラメータを渡すことが出来るやつ
 gem 'gon'
+
+#画像認識API
+gem 'rekognize'
+gem 'ruby-opencv'
 
 group :test do
   gem 'spork'
