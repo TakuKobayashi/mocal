@@ -22,7 +22,7 @@ class Mst::GracenoteApi < Mst::ApiConfig
     if result["features"].blank?
       feature.readonly!
       feature.request_url += result["id"]
-      result.merge!(feature.request_api(:get)
+      result.merge!(feature.request_api(:get))
     end
     return result
   end
