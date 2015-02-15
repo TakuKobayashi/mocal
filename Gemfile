@@ -78,6 +78,8 @@ gem 'gon'
 gem 'rekognize'
 gem 'ruby-opencv'
 
+gem 'fastimage'
+
 group :test do
   gem 'spork'
   gem 'guard-spork'

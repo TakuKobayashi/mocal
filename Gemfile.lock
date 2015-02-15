@@ -101,6 +101,8 @@ GEM
       railties (>= 3.0.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    fastimage (1.6.6)
+      addressable (~> 2.3, >= 2.3.5)
     ffi (1.9.6)
     formatador (0.2.5)
     formtastic (3.1.2)
@@ -376,6 +378,7 @@ DEPENDENCIES
   devise
   execjs
   factory_girl_rails
+  fastimage
   gon
   guard
   guard-rspec

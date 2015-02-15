@@ -69,15 +69,19 @@ Rails.application.routes.draw do
       get :ulterviolet
     end
     resources :music_scores
+
+    resource :face_recognition, controller: :face_recognition do
+      post 'recognize'
+      post 'tag'
+    end
   end
 
   resource :top, controller: :top, only: [:index] do
     get 'debug'
   end
 
-  resource :face_recognition, controller: :face_recognition do
-    post 'recognize'
-    post 'tag'
+  resource :inspection, controller: :inspection do
+    get 'face_recognize'
   end
 
   root to: "top#index"

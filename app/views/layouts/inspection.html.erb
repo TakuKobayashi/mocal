@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <%= csrf_meta_tags %>
+    <%= javascript_include_tag("jquery.min") %>
+    <title><%= content_for?(:title) ? yield(:title) : "検証用" %></title>
+  </head>
+  <body>
+    <header id="header-main">
+     <h1>検証用</h1>
+    </header>
+    <%= yield %>
+  </body>
+</html>

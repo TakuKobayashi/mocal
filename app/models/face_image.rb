@@ -9,6 +9,8 @@
 #  tag             :string(255)
 #  original_name   :string(255)      not null
 #  source_category :integer          not null
+#  width           :integer          default(0), not null
+#  height          :integer          default(0), not null
 #  options         :text
 #  created_at      :datetime
 #  updated_at      :datetime
@@ -47,11 +49,25 @@ class FaceImage < ActiveRecord::Base
     image = @face_image || OpenCV::IplImage::load(self.image_path)
     if @face_rects.present?
       face_infos = @face_rects.map do |rect|
-      	self.face_image_infos.record!(rect, {source_category: :opencv, category: "face"})
+      	self.face_image_infos.create!({
+            left_position: rect.x,
+            right_position: rect.x + rect.width,
+            top_position: rect.y,
+            bottom_position: rect.y + rect.height,
+            source_category: :opencv,
+            category: "face"
+          })
       end
     else
       face_infos = recognize_opencv_common(image, "face") do |rect|
-        self.face_image_infos.record!(rect, {source_category: :opencv, category: "face"})
+        self.face_image_infos.create!({
+            left_position: rect.x,
+            right_position: rect.x + rect.width,
+            top_position: rect.y,
+            bottom_position: rect.y + rect.height,
+            source_category: :opencv,
+            category: "face"
+          })
       end
     end
 
@@ -60,8 +76,15 @@ class FaceImage < ActiveRecord::Base
       next if key == "face"
       other_infos += recognize_opencv_common(image, key) do |rect|
       	#各パーツ検出したものは顔の中にあるはずなので、顔の中にあるものだけで絞り込み
-      	if face_infos.any?{|info| info.in_face?(rect) }
-          self.face_image_infos.record!(rect, {source_category: :opencv, category: key})
+        if face_infos.any?{|info| info.in_face?(rect) }
+          self.face_image_infos.create!({
+            left_position: rect.x,
+            right_position: rect.x + rect.width,
+            top_position: rect.y,
+            bottom_position: rect.y + rect.height,
+            source_category: :opencv,
+            category: key
+          })
         end
       end
     end

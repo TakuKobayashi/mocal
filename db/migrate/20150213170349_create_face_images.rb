@@ -7,6 +7,8 @@ class CreateFaceImages < ActiveRecord::Migration
       t.string  :tag
       t.string  :original_name, null: false
       t.integer :source_category, null: false
+      t.integer :width, null: false, default: 0
+      t.integer :height, null: false, default: 0
       t.text  :options
       t.timestamps
     end

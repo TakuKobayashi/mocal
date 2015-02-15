@@ -1,0 +1,68 @@
+<div>顔が映っている画像をアップロードしてください</div>
+<div>顔、目、鼻、口を検出します</div>
+<%= render partial: "input_each", locals: {
+        url: recognize_api_face_recognition_url} %>
+<canvas id="face_image"></canvas>
+<script>
+  var uploadFile;
+  $('#upload_form').submit(function(){
+  	var form = $('#upload_form').get()[0];
+   
+    // FormData オブジェクトを作成
+    var formData = new FormData( form );
+     var request = $.ajax({
+       url: '<%= recognize_api_face_recognition_url %>',
+       type: 'POST',
+      data: formData,
+      // Ajaxがdataを整形しない指定
+      processData: false,
+      // contentTypeもfalseに指定
+      contentType: false
+     });
+     request.done(function( data ) {
+       draw(data);
+     });
+     return false;
+  });
+
+  $("#upload_file").change(function() {
+    var file = this.files[0];
+    // 画像ファイル以外は処理中止
+    if (!file.type.match(/^image\/(png|jpeg|gif)$/)) return;
+    uploadFile = file;
+  });
+
+  var draw = function(response_data){
+    var canvas = document.getElementById('face_image');
+    if (!uploadFile || !canvas || !canvas.getContext ) { return false; }
+    canvas.width = response_data.width;
+    canvas.height = response_data.height;
+    var ctx = canvas.getContext('2d');
+
+    var image = new Image();
+    /* Imageオブジェクトを生成 */
+    var reader = new FileReader();
+    // File APIを使用し、ローカルファイルを読み込む
+    reader.onload = function(evt) {
+      // 画像がloadされた後に、canvasに描画する
+      image.onload = function() {
+        ctx.drawImage(image, 0, 0);
+        for(var i = 0;i < response_data.face_infos.length;++i){
+          ctx.strokeStyle = "rgb(255, 0, 0)";
+          ctx.strokeRect(
+            response_data.face_infos[i].left_position,
+            response_data.face_infos[i].top_position,
+            response_data.face_infos[i].right_position - response_data.face_infos[i].left_position,
+            response_data.face_infos[i].bottom_position - response_data.face_infos[i].top_position
+          );
+        }
+      }
+
+      // 画像のURLをソースに設定
+      image.src = evt.target.result;
+    }
+
+    // ファイルを読み込み、データをBase64でエンコードされたデータURLにして返す
+    reader.readAsDataURL(uploadFile);
+  }
+</script>

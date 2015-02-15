@@ -9,6 +9,8 @@
 #  tag             :string(255)
 #  original_name   :string(255)      not null
 #  source_category :integer          not null
+#  width           :integer          default(0), not null
+#  height          :integer          default(0), not null
 #  options         :text
 #  created_at      :datetime
 #  updated_at      :datetime

@@ -52,16 +52,6 @@ class FaceImageInfo < ActiveRecord::Base
     return self.left_position <= rect.x &&
            rect.x + rect.width <= self.right_position &&
            self.top_position <= rect.y &&
-           self.bottom_position <= rect.y + rect.height
-  end
-
-  def record!(rect, others = {})
-    self.left_position = rect.x
-    self.right_position = rect.x + rect.width
-    self.top_position = rect.y
-    self.bottom_position = rect.y + rect.height
-    self.attributes = others
-    self.save!
-    return self
+           rect.y + rect.height <= self.bottom_position
   end
 end

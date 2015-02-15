@@ -5,7 +5,8 @@ class Api::FaceRecognitionController < Api::BaseController
     name = upload_file.original_filename.underscore
     path = FaceImage.generate_file_path(name)
     file = File.open(path, 'wb') { |f| f.write(upload_file.read)}
-    @face_image = FaceImage.new(image_path: path, original_name: name, source_category: :smartphone_app)
+    width, height = FastImage.size(path)
+    @face_image = FaceImage.new(image_path: path, original_name: name, source_category: :smartphone_app, width: width, height: height)
     if @face_image.pre_recognize_face.blank?
       head(208)
       return
