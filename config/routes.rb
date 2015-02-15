@@ -75,5 +75,10 @@ Rails.application.routes.draw do
     get 'debug'
   end
 
+  resource :face_recognition, controller: :face_recognition do
+    post 'recognize'
+    post 'tag'
+  end
+
   root to: "top#index"
 end

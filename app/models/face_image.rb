@@ -9,6 +9,7 @@
 #  tag             :string(255)
 #  original_name   :string(255)      not null
 #  source_category :integer          not null
+#  options         :text
 #  created_at      :datetime
 #  updated_at      :datetime
 #
@@ -24,18 +25,43 @@ require 'opencv'
 class FaceImage < ActiveRecord::Base
   has_many :face_image_infos
 
-  def recognize_from_opencv!(tag = nil, options = {})
-    image = OpenCV::IplImage::load(self.image_path)
-    face_infos = recognize_opencv_common(image, "face") do |rect|
-      self.face_image_infos.record!(rect, {source_category: :opencv, category: "face", tag: tag}, options)
+  enum source_category: [
+    :rails_app,
+    :smartphone_app
+  ]
+
+  FACEIMAGE_FILE_ROOT_PATH = "/tmp/image/face/"
+
+  def self.generate_file_path(file_name)
+    extname = File.extname(file_name)
+    return Rails.root.to_s + FACEIMAGE_FILE_ROOT_PATH + SecureRandom.hex(30) + extname
+  end
+
+  def pre_recognize_face(image_path = nil)
+    @face_image = OpenCV::IplImage::load(image_path || self.image_path)
+    @face_rects = recognize_opencv_common(@face_image, "face"){|rect| rect}
+    return @face_rects
+  end
+
+  def recognize_from_opencv!
+    image = @face_image || OpenCV::IplImage::load(self.image_path)
+    if @face_rects.present?
+      face_infos = @face_rects.map do |rect|
+      	self.face_image_infos.record!(rect, {source_category: :opencv, category: "face"})
+      end
+    else
+      face_infos = recognize_opencv_common(image, "face") do |rect|
+        self.face_image_infos.record!(rect, {source_category: :opencv, category: "face"})
+      end
     end
+
     other_infos = []
     FaceImageInfo.categories.keys.each do |key|
       next if key == "face"
       other_infos += recognize_opencv_common(image, key) do |rect|
       	#各パーツ検出したものは顔の中にあるはずなので、顔の中にあるものだけで絞り込み
       	if face_infos.any?{|info| info.in_face?(rect) }
-          self.face_image_infos.record!(rect, {source_category: :opencv, category: key, tag: tag}, options)
+          self.face_image_infos.record!(rect, {source_category: :opencv, category: key})
         end
       end
     end

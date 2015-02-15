@@ -14,7 +14,7 @@ class Api::MusicScoresController < Api::BaseController
   end
 
   def index
-  	#if already exists score, return status code 207
-    head 207
+  	#if already exists score, return status code 208
+    head 208
   end
 end

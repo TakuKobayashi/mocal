@@ -9,6 +9,7 @@
 #  tag             :string(255)
 #  original_name   :string(255)      not null
 #  source_category :integer          not null
+#  options         :text
 #  created_at      :datetime
 #  updated_at      :datetime
 #
