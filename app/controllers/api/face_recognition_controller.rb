@@ -19,9 +19,9 @@ class Api::FaceRecognitionController < Api::BaseController
   end
 
   def tag
-    raise "invalid params" if params[:tag_name].blank? || params[:id].blank?
-    face_image = FaceImage.find_by!(id: params[:id])
-    face_image.update!(tag: params[:tag_name])
+    raise "invalid params" if params[:tag_name].blank? || params[:face_image_info_id].blank?
+    face_image_info = FaceImageInfo.find_by!(id: params[:face_image_info_id])
+    face_image_info.update!(tag: params[:tag_name])
     head(:ok)
   end
 end

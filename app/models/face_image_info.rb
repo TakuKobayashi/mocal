@@ -12,11 +12,13 @@
 #  bottom_position :float(24)        default(0.0), not null
 #  created_at      :datetime
 #  updated_at      :datetime
+#  tag             :string(255)
 #
 # Indexes
 #
 #  index_face_image_infos_on_face_image_id_and_category        (face_image_id,category)
 #  index_face_image_infos_on_left_position_and_right_position  (left_position,right_position)
+#  index_face_image_infos_on_tag                               (tag)
 #  index_face_image_infos_on_top_position_and_bottom_position  (top_position,bottom_position)
 #
 
