@@ -26,6 +26,7 @@ class FaceImageInfo < ActiveRecord::Base
   enum category: [
     :face,
     :eye,
+    :eyeglasses,
     :nose,
     :mouth
   ]
@@ -38,6 +39,7 @@ class FaceImageInfo < ActiveRecord::Base
 
   DETECTOR_FILE_NAMES = {
     "face" => "haarcascade_frontalface_alt.xml",
+    "eyeglasses" => "haarcascade_eye_tree_eyeglasses.xml",
     "eye" => "haarcascade_eye.xml",
     "nose" => "haarcascade_mcs_nose.xml",
     "mouth" => "haarcascade_mcs_mouth.xml"
