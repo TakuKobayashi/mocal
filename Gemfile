@@ -80,7 +80,12 @@ gem 'ruby-opencv'
 
 gem 'fastimage'
 
+#音を扱うためのgem
 gem 'wavefile'
+gem 'streamio-ffmpeg'
+
+#文字の類似度を計測するためのもの
+gem 'levenshtein-ffi', :require => 'levenshtein'
 
 group :test do
   gem 'spork'
