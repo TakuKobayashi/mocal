@@ -76,6 +76,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :json_converter, controller: :json_converter, only: [] do
+    get  :index
+    post :convert
+  end
+
   resource :top, controller: :top, only: [:index] do
     get 'debug'
   end

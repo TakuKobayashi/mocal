@@ -1,0 +1,8 @@
+<%= form_tag(url, {:multipart => true, "id" => "upload_form"}) do %>
+  <div class="field">
+    <%= file_field_tag :upload_file %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "変換" %>
+  </div>
+<% end %>
