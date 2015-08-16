@@ -2,6 +2,9 @@ class InspectionController < ApplicationController
   def show
   end
 
+  def draw
+  end
+
   def face_recognize
   end
 
