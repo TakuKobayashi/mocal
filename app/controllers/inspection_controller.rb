@@ -1,4 +1,7 @@
 class InspectionController < ApplicationController
+  def show
+  end
+
   def face_recognize
   end
 
