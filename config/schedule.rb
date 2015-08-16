@@ -25,10 +25,6 @@ set :output, {:error => 'log/error.log', :standard => 'log/cron.log'}
 # ジョブの実行環境の指定
 set :environment, :production
 
-every 1.day, :at => '1:00' do
-  rake "batches:crawl_enviroment_data"
-end
-
 =begin
 every 1.minutes do
   runner "Article.bulk_analize!"
