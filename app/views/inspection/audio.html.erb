@@ -1,0 +1,31 @@
+<div>顔が映っている画像をアップロードしてください</div>
+<div>顔、目、鼻、口を検出します</div>
+<%= render partial: "input_each", locals: {
+        url: recognize_api_face_recognition_url} %>
+<audio id="audio" controls></audio>
+<script>
+  var uploadFile;
+  $('#upload_form').submit(function(){
+  	var form = $('#upload_form').get()[0];
+   
+    // FormData オブジェクトを作成
+    var formData = new FormData( form );
+     return false;
+  });
+
+  $("#upload_file").change(function() {
+    var file = this.files[0];
+    uploadFile = file;
+    /* Imageオブジェクトを生成 */
+    var reader = new FileReader();
+    // File APIを使用し、ローカルファイルを読み込む
+    reader.onload = function(evt) {
+      //var audio = new Audio();
+      var audio = document.getElementById("audio");
+      audio.src = evt.target.result;
+      audio.load();
+      console.log(audio);
+    }
+    reader.readAsDataURL(file);
+  });
+</script>

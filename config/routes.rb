@@ -88,6 +88,7 @@ Rails.application.routes.draw do
   resource :inspection, controller: :inspection do
     get 'face_recognize'
     get 'draw'
+    get 'audio'
   end
 
   root to: "top#index"

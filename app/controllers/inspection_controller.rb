@@ -5,6 +5,9 @@ class InspectionController < ApplicationController
   def draw
   end
 
+  def audio
+  end
+
   def face_recognize
   end
 
