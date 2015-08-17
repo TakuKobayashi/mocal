@@ -53,7 +53,8 @@ class FaceImage < ActiveRecord::Base
             top_position: rect.y,
             bottom_position: rect.y + rect.height,
             source_category: :opencv,
-            category: "face"
+            category: FaceImageInfo.categories[:face],
+            neighbors: rect.neighbors
           })
       end
     else
@@ -64,7 +65,8 @@ class FaceImage < ActiveRecord::Base
             top_position: rect.y,
             bottom_position: rect.y + rect.height,
             source_category: :opencv,
-            category: "face"
+            category: FaceImageInfo.categories[:face],
+            neighbors: rect.neighbors
           })
       end
     end
@@ -72,7 +74,7 @@ class FaceImage < ActiveRecord::Base
     other_infos = []
     FaceImageInfo.categories.keys.each do |key|
       next if key == "face"
-      other_infos += recognize_opencv_common(image, key) do |rect|
+      infos = recognize_opencv_common(image, key) do |rect|
       	#各パーツ検出したものは顔の中にあるはずなので、顔の中にあるものだけで絞り込み
         if face_infos.any?{|info| info.in_face?(rect) }
           self.face_image_infos.new({
@@ -81,10 +83,14 @@ class FaceImage < ActiveRecord::Base
             top_position: rect.y,
             bottom_position: rect.y + rect.height,
             source_category: :opencv,
-            category: key
+            category: FaceImageInfo.categories[key],
+            neighbors: rect.neighbors
           })
         end
       end
+      count = face_infos.size
+      count = count * 2 if key == "eye" || key == "eyeglasses"
+      other_infos += infos.sort_by{|i| -i.neighbors }.first(count)
     end
     all_face_infos = face_infos + other_infos
     FaceImageInfo.import(all_face_infos)
