@@ -47,7 +47,7 @@ class FaceImage < ActiveRecord::Base
     image = @face_image || OpenCV::IplImage::load(self.image_path)
     if @face_rects.present?
       face_infos = @face_rects.map do |rect|
-      	self.face_image_infos.create!({
+      	self.face_image_infos.new({
             left_position: rect.x,
             right_position: rect.x + rect.width,
             top_position: rect.y,
@@ -58,7 +58,7 @@ class FaceImage < ActiveRecord::Base
       end
     else
       face_infos = recognize_opencv_common(image, "face") do |rect|
-        self.face_image_infos.create!({
+        self.face_image_infos.new({
             left_position: rect.x,
             right_position: rect.x + rect.width,
             top_position: rect.y,
@@ -75,7 +75,7 @@ class FaceImage < ActiveRecord::Base
       other_infos += recognize_opencv_common(image, key) do |rect|
       	#各パーツ検出したものは顔の中にあるはずなので、顔の中にあるものだけで絞り込み
         if face_infos.any?{|info| info.in_face?(rect) }
-          self.face_image_infos.create!({
+          self.face_image_infos.new({
             left_position: rect.x,
             right_position: rect.x + rect.width,
             top_position: rect.y,
@@ -86,7 +86,9 @@ class FaceImage < ActiveRecord::Base
         end
       end
     end
-    return face_infos + other_infos
+    all_face_infos = face_infos + other_infos
+    FaceImageInfo.import(all_face_infos)
+    return all_face_infos
   end
 
   private
