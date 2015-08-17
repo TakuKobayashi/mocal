@@ -19,9 +19,25 @@
       // contentTypeもfalseに指定
       contentType: false
      });
+     $.toast({
+       text : "顔を検出しています", //表示したいテキスト(HTML使用可)
+       allowToastClose : false,       // 閉じるボタンの表示・非表示
+       hideAfter : 2000,              // 自動的に消去されるまでの時間(ミリ秒)(falseを指定すると自動消去されない)
+       stack : 1,                     // 一度に表示できる数
+       textAlign : 'center',            // テキストの配置
+       position : 'center'       // ページ内での表示位置
+     });
+     //showToast("顔を検出しています", 1);
      request.done(function(data, status, xhr) {
        if(xhr.status == 204){
-
+         $.toast({
+           text : "顔が検出できませんでした", //表示したいテキスト(HTML使用可)
+           allowToastClose : false,       // 閉じるボタンの表示・非表示
+           hideAfter : 2000,              // 自動的に消去されるまでの時間(ミリ秒)(falseを指定すると自動消去されない)
+           stack : 1,                     // 一度に表示できる数
+           textAlign : 'center',            // テキストの配置
+           position : 'center'       // ページ内での表示位置
+         });
        }else{
          draw(data);
        }
