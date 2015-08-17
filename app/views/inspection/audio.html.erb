@@ -1,22 +1,35 @@
-<div>顔が映っている画像をアップロードしてください</div>
-<div>顔、目、鼻、口を検出します</div>
+<div>音声ファイルをアップロードしてください</div>
 <%= render partial: "input_each", locals: {
         url: recognize_api_face_recognition_url} %>
-<audio id="audio" controls></audio>
+<div id="audio_field">
+  <audio id="audio" controls></audio>
+</div>
 <script>
+  var audio_field = $("#audio_field");
+  audio_field.hide();
   var uploadFile;
   $('#upload_form').submit(function(){
-  	var form = $('#upload_form').get()[0];
-   
+    var form = $('#upload_form').get()[0];
     // FormData オブジェクトを作成
-    var formData = new FormData( form );
-     return false;
+    var formData = new FormData(form);
+    var request = $.ajax({
+      url: '<%= upload_api_sound_index_url %>',
+      type: 'POST',
+      data: formData,
+      // Ajaxがdataを整形しない指定
+      processData: false,
+      // contentTypeもfalseに指定
+      contentType: false
+    });
+    request.done(function(data) {
+      console.log(data);
+    });
+    return false;
   });
 
-  $("#upload_file").change(function() {
-    var file = this.files[0];
-    uploadFile = file;
-    /* Imageオブジェクトを生成 */
+  var audioControl = function(){
+    if(!uploadFile) return;
+    audio_field.show();
     var reader = new FileReader();
     // File APIを使用し、ローカルファイルを読み込む
     reader.onload = function(evt) {
@@ -24,8 +37,14 @@
       var audio = document.getElementById("audio");
       audio.src = evt.target.result;
       audio.load();
-      console.log(audio);
     }
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(uploadFile);
+  }
+
+  $("#upload_file").change(function() {
+    var file = this.files[0];
+    if(!file.type.match('audio.*')) return;
+    uploadFile = file;
+    audioControl();
   });
 </script>

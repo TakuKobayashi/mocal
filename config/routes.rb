@@ -74,6 +74,12 @@ Rails.application.routes.draw do
       post 'recognize'
       post 'tag'
     end
+
+    resources :sound, only: [] do
+      collection do
+        post 'upload'
+      end
+    end
   end
 
   resource :json_converter, controller: :json_converter, only: [] do
