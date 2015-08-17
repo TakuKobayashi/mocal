@@ -8,7 +8,7 @@ class Api::FaceRecognitionController < Api::BaseController
     width, height = FastImage.size(path)
     @face_image = FaceImage.new(image_path: path, original_name: name, source_category: :smartphone_app, width: width, height: height)
     if @face_image.pre_recognize_face.blank?
-      head(208)
+      head(204)
       return
     else
       FaceImage.transaction do

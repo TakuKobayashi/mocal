@@ -19,8 +19,12 @@
       // contentTypeもfalseに指定
       contentType: false
      });
-     request.done(function( data ) {
-       draw(data);
+     request.done(function(data, status, xhr) {
+       if(xhr.status == 204){
+
+       }else{
+         draw(data);
+       }
      });
      return false;
   });
