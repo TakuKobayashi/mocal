@@ -1,0 +1,1 @@
+json.extract!(@sound, :id, :wav_file_path, :file_type, :original_name, :millisecond_time, :channel, :format, :bits_per_sample, :sample_rate, :total_frame_count, :byte_rate) 

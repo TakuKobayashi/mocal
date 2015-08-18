@@ -78,6 +78,7 @@ Rails.application.routes.draw do
     resources :sound, only: [] do
       collection do
         post 'upload'
+        get 'stream'
       end
     end
   end
