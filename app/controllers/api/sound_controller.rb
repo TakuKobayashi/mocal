@@ -1,4 +1,6 @@
 class Api::SoundController < Api::BaseController
+  include ActionController::Live
+
   def upload
     upload_file = params[:upload_file]
     if upload_file.present?
@@ -19,6 +21,16 @@ class Api::SoundController < Api::BaseController
   end
 
   def stream
+    @sound = Sound.find_by!(id: params[:id])
+    count = 0
+    wave = @sound.file_read
+    wave.each_buffer(4096) do |buffer|
+      response.stream.write buffer.samples.to_json
+      count = count + buffer.samples.size
+      logger.info count
+    end
+  ensure
+    response.stream.close
   end
 
   def wave
@@ -27,6 +39,6 @@ class Api::SoundController < Api::BaseController
   def fft
   end
 
-  def vocal_canseler
+  def vocal_canseler_mono
   end
 end

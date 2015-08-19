@@ -1,12 +1,15 @@
 <div>音声ファイルをアップロードしてください</div>
 <%= render partial: "input_each", locals: {
         url: recognize_api_face_recognition_url} %>
+<%= link_to("Stream", "#", id: "stream") %>
 <div id="audio_field">
   <audio id="audio" controls></audio>
 </div>
 <script>
+  var stream_submit = $("#stream");
   var audio_field = $("#audio_field");
   audio_field.hide();
+  var soundData;
   var uploadFile;
   $('#upload_form').submit(function(){
     var form = $('#upload_form').get()[0];
@@ -22,10 +25,49 @@
       contentType: false
     });
     request.done(function(data) {
+      soundData = JSON.parse(data);
+      stream_submit.show();
       console.log(data);
     });
     return false;
   });
+
+  stream_submit.click(function(){
+    stream();
+    return;
+  });
+
+  var stream = function(){
+    if(!soundData) return;
+    var timer = null;
+    var request = $.ajax({
+      url: '<%= stream_api_sound_index_url %>',
+      type: 'GET',
+      data: {id: soundData.id},
+      async: true,
+      cache: false,
+      xhrFields: {
+        onloadstart: function() {
+          var xhr = this;
+          timer = setInterval(function() {
+            console.log(xhr.responseText.length);
+          }, 100);
+        }
+      },
+      success: function(data) {
+        console.log('successed.');
+        console.log(data.length);
+        setTimeout(function(){
+          clearInterval(timer);
+        }, 500);
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        console.log('error occured.');
+        // 即座にタイマー停止
+        clearInterval(timer);
+      }
+    });
+  }
 
   var audioControl = function(){
     if(!uploadFile) return;

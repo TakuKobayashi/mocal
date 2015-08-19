@@ -39,4 +39,8 @@ class Sound < ActiveRecord::Base
       byte_rate: format.byte_rate
     )
   end
+
+  def file_read
+    return WaveFile::Reader.new(wav_file_path)
+  end
 end
